@@ -1,0 +1,1045 @@
+%% This is file `elsarticle-template-2-harv.tex',
+%%
+%% Copyright 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+%% Template article for Elsevier's document class `elsarticle'
+%% with harvard style bibliographic references
+%%
+%% $Id: elsarticle-template-2-harv.tex 155 2009-10-08 05:35:05Z rishi $
+%% $URL: http://lenova.river-valley.com/svn/elsbst/trunk/elsarticle-template-2-harv.tex $
+%%
+
+%%\documentclass[preprint,authoryear,12pt]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+
+%% Astronomy & Computing uses 5p
+%% \documentclass[final,authoryear,5p,times]{elsarticle}
+\documentclass[final,authoryear,5p,times,twocolumn]{elsarticle}
+
+%% if you use PostScript figures in your article
+%% use the graphics package for simple commands
+%% \usepackage{graphics}
+%% or use the graphicx package for more complicated commands
+\usepackage{graphicx}
+%% or use the epsfig package if you prefer to use the old commands
+%% \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+\usepackage[pdftex,pdfpagemode={UseOutlines},bookmarks,bookmarksopen,colorlinks,linkcolor={blue},citecolor={green},urlcolor={red}]{hyperref}
+\usepackage{hypernat}
+
+%% Alternatives to hyperref for testing
+%\usepackage{url}
+%\newcommand{\htmladdnormallinkfoot}[2]{#1\footnote{\texttt{#2}}}
+%\newcommand{\htmladdnormallink}[1]{\texttt{#1}}
+%\newcommand{\href}[2]{\texttt{#2}}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+%% \usepackage{lineno}
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon (default)
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   authoryear - selects author-year citations (default)
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%   longnamesfirst  -  makes first citation full author list
+%%
+%% \biboptions{longnamesfirst,comma}
+
+% \biboptions{}
+
+\journal{Astronomy \& Computing}
+
+%% Make single quotes look right in verbatim mode
+\usepackage{upquote}
+
+\usepackage{upgreek}
+
+\usepackage{color}
+
+\usepackage{listings}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\footnotesize,        % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+
+% Aim to be consistent, and correct, about how we refer to sections
+\newcommand*\secref[1]{Sect.~\ref{#1}}
+\newcommand*\appref[1]{\ref{#1}}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+\title{ORAC-DR: A generic data reduction pipeline infrastructure}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author[jac]{Tim Jenness\corref{cor1}\fnref{timj}}
+\ead{tjenness@cornell.edu}
+\author[jac]{Frossie Economou\fnref{fe}}
+
+\cortext[cor1]{Corresponding author}
+\fntext[timjl]{Present address: Department of Astronomy, Cornell University, Ithaca,
+  NY 14853, USA}
+\fntext[fe]{Present address: LSST, 950 N.\ Cherry Ave, Tucson, AZ 85719, USA}
+
+\address[jac]{Joint Astronomy Centre, 660 N.\ A`oh\=ok\=u Place, Hilo, HI
+  96720, USA}
+
+\begin{abstract}
+%% Text of abstract
+
+  ORAC-DR is a general purpose data reduction pipeline system designed
+  to be instrument and observatory agnostic. The pipeline works with
+  instruments as varied as infrared integral field units, imaging
+  arrays and spectrographs, and sub-millimeter heterodyne arrays \&
+  continuum cameras. This paper describes the architecture of the
+  pipeline system and the implementation of the core
+  infrastructure. We finish by discussing the lessons learned since
+  the initial deployment of the pipeline system in the late 1990s.
+
+\end{abstract}
+
+\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+data reduction pipelines
+
+\end{keyword}
+
+\end{frontmatter}
+
+% \linenumbers
+
+%% Journal abbreviations
+\newcommand{\mnras}{MNRAS}
+\newcommand{\aap}{A\&A}
+\newcommand{\aaps}{A\&AS}
+\newcommand{\pasp}{PASP}
+\newcommand{\apj}{ApJ}
+\newcommand{\apjs}{ApJS}
+\newcommand{\qjras}{QJRAS}
+\newcommand{\an}{Astron.\ Nach.}
+\newcommand{\ijimw}{Int.\ J.\ Infrared \& Millimeter Waves}
+\newcommand{\procspie}{Proc.\ SPIE}
+\newcommand{\aspconf}{ASP Conf. Ser.}
+
+%% Applications
+
+%% Misc
+\newcommand{\recipe}{\emph{Recipe}}
+\newcommand{\recipes}{\emph{Recipes}}
+\newcommand{\primitive}{\emph{Primitive}}
+\newcommand{\primitives}{\emph{Primitives}}
+\newcommand{\Frame}{\emph{Frame}}
+\newcommand{\Group}{\emph{Group}}
+\newcommand{\Index}{\emph{index}}
+
+%% Links
+\newcommand{\ascl}[1]{\href{http://www.ascl.net/#1}{ascl:#1}}
+
+%% main text
+
+\section{Introduction}
+
+In the early 1990s each instrument delivered to the United Kingdom
+Infrared Telescope (UKIRT) and the James Clerk Maxwell Telescope (JCMT) came
+with its own distinct data reduction system that reused very little
+code from previous instruments. In part this was due to the rapid
+change in hardware and software technologies during the period, but it
+was also driven by the instrument projects being delivered
+by independent project teams with no standardisation requirements
+being imposed by the observatory. The observatories were required to
+support the delivered code and as operations budgets shrank the need
+to use a single infrastructure became more apparent.
+
+CGS4DR
+\citep[][\ascl{1406.013}]{1992ASPC...25..479S,1996ASPC...87..223D} was
+the archetypal instrument-specific on-line data reduction system at
+UKIRT. The move from VMS to UNIX in the acqusition environment coupled
+with plans for rapid instrument development of UFTI
+\citep{2003SPIE.4841..901R}, MICHELLE \citep{1993ASPC...41..401G} and
+UIST \citep{2004SPIE.5492.1160R}, led to a decision to revamp the
+pipeline infrastructure at UKIRT \citep{1998ASPC..145..196E}. In the
+same time period the SCUBA instrument \citep{1999MNRAS.303..659H} was
+being delivered to the JCMT. SCUBA had an on-line data reduction
+system developed on VMS that was difficult to modify and ultimately
+was capable solely of simple quick-look functionality. There was no explicit
+data reduction pipeline and this provided the opportunity to develop a
+truly instrument agnostic pipeline capable of supporting different
+imaging modes and wavelength regimes.
+
+The Observatory Reduction and Acquisition Control Data Reduction pipeline
+\citep[ORAC-DR;][\ascl{1310.001}]{1999ASPC..172...11E,2008AN....329..295C} was
+the resulting system. In the sections that follow we present an
+overview of the architectural design and then describe the pipeline
+implementation. We finish by detailing lessons learned during the
+lifetime of the project.
+
+\section{Architecture}
+
+The general architecture of the ORAC-DR system has been described
+elsewhere \citep{1999ASPC..172...11E,2008AN....329..295C}. To
+summarize, the system is split into discrete units with well-defined
+interfaces. The recipes define the processing steps that are required
+using abstract language and no obvious software code. These recipes
+are expanded into executable code by a parser and this code is
+executed with the current state of the input data file objects and
+calibration system. The recipes call out to external ``algorithm
+engines'' using a standardised calling interface and it is these
+engines that contain the detailed knowledge of how to process pixel
+data.  In all the currently supported instruments the algorithm
+engines are from the Starlink software collection
+\citep[][\ascl{1110.012}]{2014ASPC..485..391C} but this is not
+required by the ORAC-DR design.
+
+A key part of the architecture is that the pipeline can function
+entirely in a data-driven manner. All information required to reduce
+the data correctly must be available in the headers of the input data
+files. This requires a systems engineering approach to observatory
+operations where the metadata are treated as equals to the science
+pixel data \citep[see e.g.,][for an overview of the JCMT and UKIRT
+approach]{2011tfa..confE..42J} and all observing modes are designed
+with observation preparation and data reduction in mind.
+
+\section{Implementation}
+
+In this section we discuss the core components of the pipeline
+infrastructure. The algorithms themselves are pluggable parts of the
+architecture and are not considered further. The only requirement
+being that the algorithm code must be callable either directly from
+Perl or over a messaging interface supported by Perl.
+
+\subsection{Data Detection}
+
+The first step in reducing data is determining which data should be
+processed. ORAC-DR separates data detection from pipeline processing,
+allowing for a number of different schemes for locating files. In
+on-line mode the pipeline is set up to assume an incremental delivery
+of data throughout the period the pipeline is running. Here we
+describe the most commonly-used options.
+
+\subsubsection{Flag files}
+
+The initial default scheme was to check whether a new file with the
+expected naming convention had appeared on disk. Whilst this can work
+if the appearance of the data file is instantaneous (for example, it
+is written to a temporary location and then renamed), it is all too
+easy to attempt to read a file that is being written too. Modifying
+legacy acquisition systems to do atomic file renames proved to be
+difficult and instead a ``flag'' file system was used.
+
+A flag file was historically a zero-length file created as soon as the
+observation was completed and the raw data file was closed. The
+pipeline would look for the appearance of the flag file (it would be
+able to use a heuristic to know the name of the file in advance and
+also look a few ahead in case the acquisition system had crashed) and
+use that to trigger processing of the primary data file.
+
+As more complex instruments arrived capable of writing multiple files
+for a single observation (either in parallel or sequentially)
+\citep{2009MNRAS.399.1026B,2013MNRAS.430.2513H} the flag system was
+modified to allow the pipeline to monitor a single flag file but
+storing the names of the relevant data files inside the file (one file
+per line). For the instruments writing files sequentially the pipeline
+is able to determine the new files that have been added to the file
+since the previous check.
+
+Historically synchronization delays over NFS mounts caused
+difficulties when the flag file would appear but the actual data file
+had not yet arrived but this no longer seems to be an issue.
+
+\subsubsection{Parameter monitoring}
+
+The SCUBA-2 quick look pipeline \citep{2005ASPC..347..585G} had a
+requirement to be able to detect files taken at a rate of
+approximately 1\,Hz for stare observations. This was impractical using
+a single-threaded data detection system embedded in the pipeline process and
+using the file system. Therefore, for SCUBA-2 quick-look processing the
+pipeline launches a separate process that continually monitors the
+four data acquisition computers using the DRAMA messaging system
+\citep{1995SPIE.2479...62B}. When all four sub-arrays indicate that a
+matched data set is available the monitored data are written to disk
+and a flag file created. Since these data are ephemeral there is a
+slight change to flag file behaviour in that the pipeline will take
+ownership of data it finds by renaming the flag file. If that happens
+the pipeline will be responsible for cleaning up; whereas if the
+pipeline does not handle the data before the next quick look image
+arrives the gathering process will remove the flag file and delete the
+data before making the new data available.
+
+\subsection{Recipe Parser}
+
+A \recipe\ is the top-level view of the data processing steps
+required to reduce some data. The requirements were that the recipe
+should be easily editable by an instrument scientist without having to
+understand the code, the \recipe\ should be easily understandable by
+using plain language, and it should be possible to reorganize steps
+easily. Furthermore, there was a need to allow \recipes\ to be edited
+``on the fly'' without having to restart the pipeline. The next data file
+to be picked up would be processed using the modified version of the
+\recipe\ and this is very important during instrument commissioning. An
+example, simplified, imaging \recipe\ is shown in Fig.\
+\ref{fig:recipe}. Each of these steps can be given parameters to
+modify their behaviour. The expectation was that these \recipes\ would
+be loadable into a Recipe Editor GUI tool, although such a tool was
+never implemented.
+
+\begin{figure}
+{
+\small
+\begin{verbatim}
+_SUBTRACT_DARK_
+_DIVIDE_BY_FLAT_
+_BIAS_CORRECT_GROUP_
+_APPLY_DISTORTION_TRANSFORMATION_
+_GENERATE_OFFSETS_JITTER_
+_MAKE_MOSAIC_ FILLBAD=1 RESAMPLE=1
+\end{verbatim}
+}
+\caption{A simplified imaging \recipe. Note that the individual steps
+  make sense scientifically and it is clear how to change the order or
+  remove steps. The \texttt{\_MAKE\_MOSAIC\_} step includes override
+  parameters.}
+\label{fig:recipe}
+\end{figure}
+
+Each of the steps in a \recipe\ is known as a
+\primitive. The \primitives\ contain the Perl source code and can
+themselves call other \primitives\ if required.
+The parser's core job is to read the \recipe, replace the mentions of \primitives\
+with subroutine calls to the source code for that primitive. For each
+\primitive\ the parser keeps a cache containing the compiled form of
+the \primitive\ as a code reference, the modification time associated
+with the \primitive\ source file when it was last read, and the full
+text of the \primitive\ for debugging purposes. Whenever a \primitive\
+code reference is about to be executed the modification time is
+checked to decide whether the \primitive\ needs to be re-read.
+
+\begin{figure*}[t]
+\begin{lstlisting}[language=perl]
+sub {
+my $_PRIM_DEPTH_ = shift;
+my $_PRIM_CALLERS_ = shift;
+$_PRIM_DEPTH_++;
+die "Primitive depth very high ($_PRIM_DEPTH_). Possible recursive primitive"
+    if $_PRIM_DEPTH_ > 10;
+ORAC::Recipe::Execution->current_primitive( "_TEST_PRIMITIVE_", $_PRIM_CALLERS_);
+my $Frm = shift;
+my $Grp = shift;
+my $Cal = shift;
+my $Display = shift;
+my $Mon = shift;
+my $ORAC_Recipe_Info = shift;
+my $ORAC_PRIMITIVE = "_TEST_PRIMITIVE_";
+my $DEBUG = 0;
+my %_TEST_PRIMITIVE_ = @_;
+my $_PRIM_ARGS_ = \%_TEST_PRIMITIVE_;
+my $_PRIM_ARGS_STRING_ = ORAC::General::convert_args_to_string( %$_PRIM_ARGS_ );
+orac_loginfo( 'Primitive Arguments' => $_PRIM_ARGS_STRING_ );
+my $_PRIM_EPOCH_ = &Time::HiRes::gettimeofday();
+orac_logkey("_TEST_PRIMITIVE_");
+$Frm->set_app_name(Primitive=>"_TEST_PRIMITIVE_") if $Frm->can("set_app_name");
+my %RECPARS = %{$ORAC_Recipe_Info->{Parameters}};
+my %Mon;
+if (tied %$Mon) {
+my $obj = tied %$Mon;
+    tie %Mon, ref($obj), $obj; # re-tie
+} else {
+    %Mon = %$Mon;
+}
+#line 1 _TEST_PRIMITIVE_
+\end{lstlisting}
+\caption{Code added to the start of each \primitive. In this case the
+  \primitive\ is called \texttt{\_TEST\_PRIMITIVE\_}. In debugging
+  mode additional lines would be present. Note that the subroutine is
+  not named and is simply used to generate an anonymous subroutine
+  code reference. The final line in the listing is used to reset the
+  line numbering so that error messages can include the correct line
+  number when referring to the \primitive\ code as written by the
+  programmer. This code has
+  been generated with the 2014A version of ORAC-DR.}
+\label{fig:primhead}
+\end{figure*}
+
+The parser is also responsible for adding additional code at the
+start of the \primitive\ to allow it to integrate into the general
+pipeline infrastructure. This code includes:
+
+\begin{itemize}
+
+\item Handling of state objects that are passed through the subroutine
+  argument stack and parsing of parameters passed to the \primitive\
+  by the caller. These arguments are designed not be language-specific
+  and use a simple \texttt{KEYWORD=VALUE} syntax
+  and can not be handled directly by the Perl interpreter.
+
+\item Trapping for primitive call recursion.
+
+\item Debugging information
+such as timers to allow profile information be
+collected, and entry and exit log messages to indicate exactly when
+a routine is in use.
+
+\item Callbacks to GUI code to indicate which \primitive\ is
+currently active.
+
+\end{itemize}
+
+Fig.\ \ref{fig:primhead} shows an example of the subroutine entry code generated automatically by the
+parser. The design is such that adding new code to the entry and exit of each
+\primitive\ can be done in a few lines with little overhead.
+
+Calling algorithm engines is a very common occurence and is also where
+most of the time is spent during \recipe\ execution. In order to
+minimize repetitive coding for error conditions and to allow for profiling, calls to
+algorithm engines are surrounded by code to automatically handle these
+conditions. For example:
+
+\begin{lstlisting}[language=perl]
+$Mon{monolith}->obeyw("action","arg1=a");
+\end{lstlisting}
+
+is expanded significantly and becomes something akin to:
+
+\begin{lstlisting}[language=perl]
+my $OBEYW_STATUS=$Mon{monolith}->obeyw("action",
+    "arg1=a");
+if ($OBEYW_STATUS != ORAC__OK) {
+  orac_err ("Error in obeyw: $OBEYW_STATUS\n");
+  my $obeyw_args = "arg1=a arg2=b";
+  orac_print("Arguments were: ","blue");
+  orac_print("$obeyw_args\n\n","red");
+  if ($OBEYW_STATUS == ORAC__BADENG) {
+    orac_err("Monolith monolith has died.");
+    delete $Mon{monolith};
+  }
+  return $OBEYW_STATUS;
+}
+#line 5 _TEST_PRIMITIVE_
+\end{lstlisting}
+
+where much code has been left out of this example for
+clarity\footnote{The \texttt{oracdr\_parse\_recipe} command can be run
+to provide a complete translation of a \recipe.} and in particular the
+logging and profiling code are missing. As for the previous example,
+the line counter is reset when the added code ends.
+
+\subsection{Recipe Execution}
+\label{sec:exec}
+
+Once a set of files have been found the header is read to determine
+how the data should be reduced. Files from the same observation are
+read into what is knowns as a \Frame\ object. This object contains all
+the metadata and pipeline context and, given that the current
+algorithm engines require files to be written, the name of the
+currently active intermediate file (or files for observations that
+eihter consist of multiple files or which generate multiple
+intermediate files). In some cases, such as for ACSIS, a single
+observation can generate multiple files that are independent and in
+these cases multiple \Frame\ objects are created and they are
+processed independently. There is also a \Group\ object which
+contains the collection of \Frame\ objects that the pipeline should
+combine.
+
+The pipeline will have been configured for a particular instrument and
+the resulting \Frame\ and \Group\ objects will be instrument-specific subclasses.
+
+The \Frame\ object contains sufficient information to allow the
+pipeline to work out which \recipe\ should be used to reduce the
+data. The top-level \recipe\ is parsed and is then evaluated in the
+parent pipeline context using the Perl \texttt{eval} function. The
+\recipe\ is called with the relevant \Frame, and \Group\ objects along
+with other context (see Fig.\ \ref{fig:primhead} for an example). The
+reason we use \texttt{eval} rather than running the recipe in a
+distinct process is to allow the recipe to update the state. As
+discussed in section \ref{sec:onvoff}, the pipeline is designed to
+function in an incremental mode where data are reduced as they arrive,
+with group co-adding either happening incrementally or waiting for a
+set cadence to complete. This requires that the group processing stage
+knows the current state of the \Group\ object and of the contributing
+\Frame\ objects. Launching an external process to execute the
+recipe each time new data arrived would significantly complicate the
+architecture.
+
+As noted in the previous section, the \recipe\ is parsed incrementally
+and the decision on whether to re-read a \primitive\ is deferred until
+that \primitive\ is required. This is important for instruments such
+as MICHELLE and UIST which can observe in multiple modes
+(spectroscopy, imaging, IFU), sometimes
+requiring a single recipe invocation to call \primitives\ optimized
+for the different modes. The execution environment handles this by
+allowing a caller to set the instrument mode and this dynamically
+adjusts the \primitive\ selection code.
+
+\subsection{Header Translation}
+
+As more instruments were added to ORAC-DR it quickly became apparent
+that many of the \primitives\ were being adjusted to support different
+variants of FITS headers through the use of repetitive if/then/else
+constructs. This was making it harder to support the code and it was
+decided to modify the \primitives\ to use standardised headers. When a
+new \Frame\ object is created the headers are immediately translated
+to standard form and both the original and translated headers are
+available to \primitive\ authors.
+
+The code to do the translation was felt to be fairly generic and was
+written to be a standalone
+module\footnote{\texttt{Astro::FITS::HdrTrans}, available on
+  CPAN}. Each instrument header maps to a single translation class
+with a class hierarchy that allows, for example, JCMT instruments to
+inherit knowledge of shared JCMT headers without requiring that the
+translations be duplicated. Each class is passed the input header and
+reports whether the class can process it, and it is an error for multiple
+classes to be able to process a single header. A method exists for each
+target generic header and has the form:
+
+\begin{lstlisting}[language=perl]
+$genericvalue = $class->_to_GENERIC_NAME( \%fits );
+\end{lstlisting}
+
+where, for example the method to calculate the start airmass would be
+\texttt{\_to\_AIRMASS\_START}. The simple unit mappings (where there
+is a one-to-one mapping of an instrument header to a generic header
+without requiring changes to units) are defined as simple Perl hashes
+but at compile-time the corresponding methods are generated so that
+there is no difference in interface for these cases. Complex mappings
+that may involve multiple input FITS headers, are written as explicit
+conversion methods.
+
+The header translation system can also reverse the mapping such that a
+set of generic headers can be converted back into instrument-specific
+form. This can be particularly useful when required to update a header
+during processing.
+
+\subsection{Calibration System}
+
+During \Frame\ processing it is necessary to make use of calibration
+frames or parameters derived from calibration instruments. The early
+design focused entirely on how to solve the problem of selecting the
+most suitable calibration frame for a particular science observation
+without requiring the instrument scientist to write code or understand
+the internals of the pipeline. The solution that was adopted involves
+two distinct operations: filing calibration results and querying those results.
+When a calibration image is reduced (using the same pipeline
+environment as science frames) the results of the processing are
+registered with the calibration system. Information such as the name
+of the file, the wavelength, the observing mode are all stored in the \Index.
+In the current system the \Index\ is a file on disk that is cached by
+the pipeline but the design would be no different if an SQL database
+was used instead; no \primitives\ would need to be modified to switch
+to an SQL backend.  The only requirement is that the \Index\ is
+persistent over pipeline restarts (which may happen a lot during
+instrument commissioning).
+
+The second half of the problem was to provide a rules-based system.
+A calibration rule simply indicates how a header in the science data
+must relate to a header in the calibration database in order for the
+calibration to be flagged as suitable. The following is an excerpt
+from a rules file for an imaging instrument dark calibration:
+
+\begin{quote}
+{\small
+\begin{verbatim}
+OBSTYPE eq 'DARK'
+MODE eq $Hdr{MODE}
+EXP_TIME == $Hdr{EXP_TIME}
+\end{verbatim}
+}
+\end{quote}
+
+Each row in the rules file is evaluated in turn by replacing the
+unadorned keyword with the corresponding calibration value read from
+the \Index\ and the \texttt{\$Hdr} corresponding to the science
+header. In the above example the
+calibration would match if the exposure times and observing readout
+mode match and the calibration itself is a dark.
+
+These rules are evaluated using the Perl \texttt{eval} command
+so the full Perl interpreter is available. The following common idiom
+is used to filter out calibration observations that are too old:
+
+\begin{quote}
+{\small
+\begin{verbatim}
+ORACTIME ; abs( ORACTIME - $Hdr{ORACTIME} ) < 1.0
+\end{verbatim}
+}
+\end{quote}
+
+where we make use of the fact that a bare number or quoted string on
+its own is effectively a no-op and the real logic begins after the
+statement separator.\footnote{\texttt{ORACTIME} is the standardised
+representation of the observation time of the \Frame.}
+
+The calibration selection system can behave differently in off-line
+mode as the full set of calibrations can be made available. Each
+instrument's calibration class can decide whether this is an
+appropriate behavior.
+
+The calibration system can be modified by a command-line argument at
+run time to allow the user to decide which behavior to use. For
+example, with the SCUBA pipeline \citep{1999ASPC..172..171J} the user
+can decide which opacity calibration scheme they require from a number
+of options.
+
+
+\subsection{Configurable Display System}
+
+\begin{figure*}
+{\small
+\begin{verbatim}
+# Send raw frame to first Gaia window
+num type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
+raw type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
+
+# Send darsubtracted frame to first Gaia window
+dk  type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
+
+# Send flatfielded frame to first Gaia window
+ff  type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
+
+# Send mosaic frame to second Gaia window
+g_mos type=image tool=gaia region=0 window=1 autoscale=1 zautoscale=1
+
+# Send polarimetry vectorplot (intensity image) to KAPVIEW window
+I type=vector tool=kapview region=0 window=0 autoscale=1 zautoscale=1
+\end{verbatim}
+}
+\caption{Sample display configuration file used as the default for the
+  UFTI instrument.}
+\label{fig:disp}
+\end{figure*}
+
+On-line pipelines are most useful when results are displayed to the
+observer. One complication with pipeline display is that different
+observers are interested in different intermediate data products or
+wish the final data products to be displayed in a particular
+way. Display logic such as this can not be embedded directly in
+\primitives; all a \primitive\ can do is indicate that a particular
+product \emph{could} be displayed and leave it to a different system
+to decided \emph{whether} the product should be displayed and how to
+do so.
+
+The display system uses the ORAC-DR file naming convention to
+determine relevance. Usually, the text after the last underscore,
+referred to as the file suffix, is used to indicate the reduction step
+that generated the file: \texttt{mos} for mosaic, \texttt{dk} for
+dark, etc. When a \Frame\ or \Group\ is passed to the display system
+the file suffix and, optionally a \Group\ versus \Frame\ indicator,
+are used to form an identifier that is compared with the entries in
+the display configuration file (Fig.\ \ref{fig:disp}). For each row
+that matches with a suitable data type (image, spectrum, cube), the
+file will be handled by the stated image display tool. Additional
+parameters can be used to control placement within a viewport and how
+auto-scaling is handled. The display system currently supports GAIA
+\citep[][\ascl{1403.024}]{2009ASPC..411..575D} and KAPPA
+\citep[][\ascl{1403.022}]{SUN95} as well as the historical P4 tool
+(part of CGS4DR \citep{SUN27} and an important influence on the
+design).
+
+Originally the display commands would be handled within the \recipe\
+execution environment and would block the processing until the display
+was complete. This can take a non-negligible amount of time and for the
+SCUBA-2 pipeline to meet its performance goals this delay was
+unacceptable. The architecture was therefore modified to allow the
+display system running from within the \recipe\ to register the
+display request but for a separate process to be monitoring these
+requests and triggering the display.
+
+\section{Supporting New Instruments}
+
+An important part of the ORAC-DR philosophy is to make adding new
+instruments as painless as possible and re-use as much of the
+exisiting code as possible. The work required obviously depends on the
+type of instrument. An infrared array will be straightforward as many
+of the \recipes\ will work with only minor adjustments. Adding support
+for an X-Ray telescope or radio interferometer would require
+signficantly more work on the recipes.
+
+To add a new instrument the following items must be considered:
+
+\begin{itemize}
+
+\item How are new data presented to the pipeline? ORAC-DR supports a
+  number of different data detection schemes but can't cover every option.
+
+\item What is the file format? All the current \recipes\ use Starlink
+  algorithm engines that require NDF \citep{ndfjenness} and if FITS
+  files are detected the infrastructure converts them to NDF before
+  handing them to the rest of the system. If the raw data are in HDF5,
+  or use a very complex data model on top of FITS, new code will have
+  to be written to support this.
+
+\item How to map the metadata to the internal expectations of the
+  pipeline? A new module would be needed for \texttt{Astro::FITS::HdrTrans}.
+
+\item Does it need new \recipes/\primitives? This depends on how close
+  the instrument is to an instrument already supported. The \recipe\
+  parser can be configured to search in instrument-specific
+  sub-directories and, for example, the Las Cumbres Observatory
+  imaging recipes use the standard \primitives\ in many case but also
+  provide bespoke versions that handle the idiosyncracies of their
+  instrumentation.
+
+\end{itemize}
+
+Once this has been decided new subclasses will have to be written to
+encode specialist behaviour for \Frame\ and \Group\ objects and the
+calibration system.
+
+\section{Lessons Learned}
+
+\subsection{Language choice can hinder adoption}
+
+In 1998 the best choice of dynamic ``scripting'' language for an astronomy project was
+still an open question with the main choices being between Perl and
+Tcl/Tk with Python being a distant third
+\citep{1999ASPC..172..494J,1999ASPC..172..483B,2000ASPC..216...91J}.
+Tcl/Tk had already been adopted by Starlink
+\citep{1995ASPC...77..395T}, STScI \citep{1998SPIE.3349...89D} and ESO \citep{1996ASPC..101..396H,1995ASPC...77...58C} and
+would have been the safest choice, but at the time it was felt that
+the popularity of Tcl/Tk was peaking. Perl was chosen as it was a language
+gaining in popularity and the development team were proficient in
+it in addition to developing the Perl Data Language \citep[PDL;][]{PDL}
+promising easy handling of array data; something Tcl/Tk was incapable
+of handling.
+
+Over the next decade and a half, beginning with the advent of \texttt{pyraf}
+\citep[][\ascl{1207.010}]{2000ASPC..216...59G,2006hstc.conf..437G}
+and culminating in Astropy \citep{2013A&A...558A..33A},
+Python became the dominant language for astronomy,
+becoming the \emph{lingua franca} for new students in astronomy and
+the default scripting interface for new data reductions systems such
+as those for ALMA
+\citep{2007ASPC..376..127M} and LSST \citep{2010SPIE.7740E..15A}.
+In this environment, whilst ORAC-DR received much interest from other
+observatories the use of Perl rather than Python became a
+deal-breaker given the skillsets of development groups. During this
+period only two additional observatories adopted the pipeline: the
+Anglo-Australian Observatory for IRIS2 \citep{2004SPIE.5492..998T} and Las Cumbres
+Observatory for their imaging pipeline \citep{2013PASP..125.1031B}.
+
+The core design concepts were not at issue, indeed, Gemini adopted the
+key features of the ORAC-DR design in their Gemini Recipe System
+\citep{2014ASPC..485..359L}. With approximately 100,000 lines of Perl code in
+ORAC-DR\footnote{For infrastructure and \primitives, but counting code only, with comments adding more than
+  100,00 lines to that
+  number. Blank line count not included, nor are support modules from CPAN
+  required by the pipeline but distributed separately.} it
+is impractical to rewrite it all in Python given that the system does
+work as designed.
+
+Of course, a language must be chosen without the benefit of hindsight
+but it is instructive to see how the best choice for a particular
+moment can have significant consequences 15 years later.
+
+\subsection{In-memory versus intermediate files}
+
+When ORAC-DR was being designed the choice was between IRAF
+\citep[][\ascl{9911.002}]{2012ASPC..461..595F} and Starlink for the algorithm engine.
+At the time the answer was that Starlink messaging and error reporting were
+significantly more robust and allowed the \primitives\ to adjust their
+processing based on specific error states (such as there being too few
+stars in the field to solve the mosaicking offsets). From a software
+engineering perspective this was clearly the correct choice but it
+turned out to be yet another reason why ORAC-DR could not be adopted
+by other telescopes. Both these environments relied on each command
+reading data from a disk file, processing it in some way and then
+writing the results out to either the same or a new file. Many of
+these routines were optimized for environments where the science data
+was comparable in size to the available RAM and went to great lengths
+to read the data in chunks to minimize swapping. It was also not
+feasible to rewrite these algorithms (that had been well-tested) in
+the Perl Data Language, or even turn the low-level libraries into Perl
+function calls, and the penalty involved in continually reading
+and writing to the disk was deemed to be a good trade off.
+
+As it turns out, the entire debate of Starlink versus IRAF is somewhat
+moot in the current funding climate and in an era where many pipeline
+environments \citep[e.g.,][]{2010SPIE.7740E..15A} are abandoning
+intermediate files and doing all processing in memory for performance
+reasons, using, for example, numpy arrays or ``piddles''. For
+instruments where the size of a single observation approaches 1\,TB
+\citep[e.g., SWCam at CCAT;][]{2014SPIE9153-21} this presents a
+sizeable challenge but it seems clear that this is the current trend
+and a newly-written pipeline infrastructure would assume that all
+algorithm work would be in memory.
+
+
+\subsection{Online design confused offline use}
+\label{sec:onvoff}
+
+ORAC-DR was initially designed for on-line summit usage where data
+appear incrementally and where as much processing should be done on
+each frame whilst waiting for subsequent frames to arrive. As
+discussed previously (section~\ref{sec:exec}), this led to the
+execution of the \recipe\ within the main process so that context
+could be shared easily.
+
+For off-line mode the environment is very different and you would
+ideally wish to first reduce all the calibration observations, then
+process all the individual science observations and finally do the
+group processing to generate mosaics and co-adds. When doing this the
+only context that would need to be passed between different \recipe\
+executions would be the calibration information that is already
+persistent. Indeed, the \recipes\ themselves could be signficantly
+simplified in that single observation \recipes\ would not include any
+group processing instructions. This is not strictly possible in all
+cases. For the ACSIS data reduction \recipes\ \citep{JennessACSISDR}
+the output of the frame processing depends on how well the group
+co-adding has been done; the more measurements that are included, the
+better the baseline subtraction.
+
+As written, the recipes have to handle both on-line and off-line
+operation and this is achieved by the group \primitives\ being
+configured to be no-ops if they realise that the \Frame\ object that
+is currently being processed is not the final member of the group.
+Whilst the off-line restrictions can be annoying to someone reducing a
+night of data on their home machine, it is possible to deal with the
+problems by scanning through a set of observations and running the
+pipeline separately for each one. This is exactly how the the healpix
+processing for the JCMT Science Archive is implemented
+\citep{2014SPIE9152-93}. Parallelisation is therefore occuring at a
+level above the ORAC-DR pipeline itself. Currently, the UKIRT Science
+Archive \citep{2014ASPC..485..143B} reduces entire nights in a single
+process but this is less important for UKIRT data as it is uncommon
+for a later calibration observation to be usable by an earlier
+observation.
+
+The PiCARD \citep{SUN265} frontend to the infrastructure was developed
+to try to overcome some of the on-line bias in the data handling. The
+\textbf{Pi}peline for \textbf{C}ombining and \textbf{A}nalyzing
+\textbf{R}educed \textbf{D}ata, was introduced in 2007
+\citep{2008ASPC..394..565J} specifically to allow the existing
+infrastructure to be leveraged in an off-line science archive
+environment. The ORAC-DR layer was removed and replaced with a
+simplified application that accepts a list of files, works out what
+type of instrument they come from, and uses the same parser to read
+the specified recipe.
+
+\subsection{Dynamic recipe generation works well}
+
+Whilst the initial driver for dynamic recipe generation came directly
+out of the requirement for a readable \recipe, it would have been
+simple to write the \primitives\ as Perl subroutines from the
+beginning and require the primitive writer to handle the subroutine
+arguments and return codes. In some sense, this would have been the
+obvious approach as that is how most people want to write code.
+
+It soon became clear that the benefits associated
+with running a parser over the \primitives\ were substantial. Not only
+could we minimize the use of repetitive code but we could dynamically
+add in profiling code. In fact, this was critical to the ongoing
+development of the ORAC-DR infrastructure as the current version of
+the parser is the third complete rewrite and none of the rewrites
+required any change to \primitive\ code. The first version of the
+parser did not use subroutines at all and simply expanded the \recipe\
+into one long string for evaluation.
+
+\subsection{Threading and Distributed Processing}
+
+Perl does not really support multi-threaded
+operation\footnote{There have been multiple attempts to support native
+  threads in Perl but nothing has appeared that is recommended.}
+and this has led to some problems with components of the system that
+use blocking I/O such as the display system or the file detection
+code. Being able to monitor new data arriving whilst creating a thread for the
+current data to be processed seems attractive but would probably have
+created more complication than would be acceptrable and using separate
+processes has worked despite it feeling ``kludgey''.
+
+Similarly, the way the messaging interface was implemented meant that
+it was not possible to send multiple messages concurrently. The
+ability to send four files to four separate, but identical, tasks in
+parallel, and waiting for them all to complete would have led to some
+efficiency games even if the tasks were all running on the single
+pipeline computer. We are again struggling with this issue as
+the SMURF map-maker \citep[][\ascl{310.007}]{2013MNRAS.430.2545C}, currently supported by
+ORAC-DR, is being modified to support
+multi-node operation using MPI \citep{2014ASPC..485..399M}. It may be
+that implementing MPI at the task level is much easier than at the
+messaging level but this remains to be tested.
+
+\section{Conclusions}
+
+ORAC-DR has been in use since 1998, running on four telescopes and ten
+instruments covering the submillimeter to the optical and imaging to
+IFUs. Prototype pipelines have also been developed for Gemini and ESO
+instruments to prove the inherent flexibility of the design
+\citep{2003ASPC..295..237C,2004ASPC..314..460C}.
+
+The design of the pipeline infrastructure succeeded in its goals of minimizing
+the amount of code needed for each new instrument delivery, re-using a
+significant amount of code available to the community and in making a
+system that can be tweaked easily by instrument scientists and
+interested astronomers.
+
+
+\section*{Acknowledgments}
+
+ORAC-DR was initially developed for UKIRT as part of the ORAC Project
+\citep{1998SPIE.3349..184B}, and then further developed by the Joint
+Astronomy Centre to support JCMT and UKIRT instrumentation. We thank
+all the ORAC-DR recipe developers who have helped make the pipeline
+successful, and in particular we thank  Malcolm Currie, Brad Cavanagh,
+Andy Gibb, Paul Hirst,  and Stephen Todd for their significant contributions.
+
+The source
+code is available from
+\htmladdnormallinkfoot{Github}{https://github.com/Starlink/ORAC-DR}
+and distributed under the Gnu General Public Licence.
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%%
+%%  \citet{key}  ==>>  Jones et al. (1990)
+%%  \citep{key}  ==>>  (Jones et al., 1990)
+%%
+%% Multiple citations as normal:
+%% \citep{key1,key2}         ==>> (Jones et al., 1990; Smith, 1989)
+%%                            or  (Jones et al., 1990, 1991)
+%%                            or  (Jones et al., 1990a,b)
+%% \cite{key} is the equivalent of \citet{key} in author-year mode
+%%
+%% Full author lists may be forced with \citet* or \citep*, e.g.
+%%   \citep*{key}            ==>> (Jones, Baker, and Williams, 1990)
+%%
+%% Optional notes as:
+%%   \citep[chap. 2]{key}    ==>> (Jones et al., 1990, chap. 2)
+%%   \citep[e.g.,][]{key}    ==>> (e.g., Jones et al., 1990)
+%%   \citep[see][pg. 34]{key}==>> (see Jones et al., 1990, pg. 34)
+%%  (Note: in standard LaTeX, only one note is allowed, after the ref.
+%%   Here, one note is like the standard, two make pre- and post-notes.)
+%%
+%%   \citealt{key}          ==>> Jones et al. 1990
+%%   \citealt*{key}         ==>> Jones, Baker, and Williams 1990
+%%   \citealp{key}          ==>> Jones et al., 1990
+%%   \citealp*{key}         ==>> Jones, Baker, and Williams, 1990
+%%
+%% Additional citation possibilities
+%%   \citeauthor{key}       ==>> Jones et al.
+%%   \citeauthor*{key}      ==>> Jones, Baker, and Williams
+%%   \citeyear{key}         ==>> 1990
+%%   \citeyearpar{key}      ==>> (1990)
+%%   \citetext{priv. comm.} ==>> (priv. comm.)
+%%   \citenum{key}          ==>> 11 [non-superscripted]
+%% Note: full author lists depends on whether the bib style supports them;
+%%       if not, the abbreviated list is printed even when full requested.
+%%
+%% For names like della Robbia at the start of a sentence, use
+%%   \Citet{dRob98}         ==>> Della Robbia (1998)
+%%   \Citep{dRob98}         ==>> (Della Robbia, 1998)
+%%   \Citeauthor{dRob98}    ==>> Della Robbia
+
+
+%% References with bibTeX database:
+
+\bibliographystyle{model2-names-astronomy}
+\bibliography{acoracdr}
+
+%% Authors are advised to submit their bibtex database files. They are
+%% requested to list a bibtex style file in the manuscript if they do
+%% not want to use model2-names.bst.
+
+%% References without bibTeX database:
+
+% \begin{thebibliography}{00}
+
+%% \bibitem must have one of the following forms:
+%%   \bibitem[Jones et al.(1990)]{key}...
+%%   \bibitem[Jones et al.(1990)Jones, Baker, and Williams]{key}...
+%%   \bibitem[Jones et al., 1990]{key}...
+%%   \bibitem[\protect\citeauthoryear{Jones, Baker, and Williams}{Jones
+%%       et al.}{1990}]{key}...
+%%   \bibitem[\protect\citeauthoryear{Jones et al.}{1990}]{key}...
+%%   \bibitem[\protect\astroncite{Jones et al.}{1990}]{key}...
+%%   \bibitem[\protect\citename{Jones et al., }1990]{key}...
+%%   \harvarditem[Jones et al.]{Jones, Baker, and Williams}{1990}{key}...
+%%
+
+% \bibitem[ ()]{}
+
+% \end{thebibliography}
+
+\end{document}
+
+%%
+%% End of file `elsarticle-template-2-harv.tex'.
