@@ -393,7 +393,7 @@ code reference is about to be executed the modification time is
 checked to decide whether the \primitive\ needs to be re-read.
 
 \begin{figure*}[t]
-\begin{lstlisting}[language=perl]
+\begin{lstlisting}[language=perl,numbers=left]
 sub {
 my $_PRIM_DEPTH_ = shift;
 my $_PRIM_CALLERS_ = shift;
@@ -426,15 +426,18 @@ my $obj = tied %$Mon;
 }
 #line 1 _TEST_PRIMITIVE_
 \end{lstlisting}
-\caption{Code added to the start of each \primitive. In this case the
-  \primitive\ is called \texttt{\_TEST\_PRIMITIVE\_}. In debugging
-  mode additional lines would be present. Note that the subroutine is
-  not named and is simply used to generate an anonymous subroutine
-  code reference. The final line in the listing is used to reset the
-  line numbering so that error messages can include the correct line
-  number when referring to the \primitive\ code as written by the
-  programmer. This code has
-  been generated with the 2014A version of ORAC-DR.}
+  \caption{Code added to the start of each \primitive. In this case
+    the \primitive\ is called \texttt{\_TEST\_PRIMITIVE\_}. In
+    debugging mode additional lines would be present. This code has
+    been generated with the 2014A version of ORAC-DR. Line 1 indicates
+    that this is an anonymous subroutine code reference and not a
+    named subroutine. Lines 2 to 13 read the (internal) subroutine
+    arguments and lines 16 to 19 process the user-supplied primitive
+    arguments. Lines 19 to 22 setup timing, logging and GUI updates
+    and line 23 proceses \recipe\ parameters. Lines 24 to 30 deal with
+    the algorithm engines and finally line 31 resets the line counter
+    so that error messages from user-supplied \primitive\ code report
+    the line number as expected by the programmer.}
 \label{fig:primhead}
 \end{figure*}
 
