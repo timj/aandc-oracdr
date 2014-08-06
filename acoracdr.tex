@@ -648,7 +648,7 @@ during processing.
 \subsection{Calibration System}
 
 During \Frame\ processing it is necessary to make use of calibration
-frames or parameters derived from calibration instruments. The early
+frames or parameters derived from calibration observations. The early
 design focused entirely on how to solve the problem of selecting the
 most suitable calibration frame for a particular science observation
 without requiring the instrument scientist to write code or understand
@@ -706,7 +706,8 @@ statement separator.\footnote{\texttt{ORACTIME} is the standardised
 representation of the observation time of the \Frame.}
 
 The calibration selection system can behave differently in off-line
-mode as the full set of calibrations can be made available. Each
+mode as the full set of calibrations can be made available and
+calibrations taken after the current observation may be relevant. Each
 instrument's calibration class can decide whether this is an
 appropriate behavior.
 
@@ -716,6 +717,18 @@ example, with the SCUBA pipeline \citep{1999ASPC..172..171J} the user
 can decide which opacity calibration scheme they require from a number
 of options.
 
+One of the more controversial aspects of the calibration system was
+that the UKIRT pipelines would stop and refuse to reduce data if no
+suitable calibration frame had been taken previously (such as a dark
+taken in the wrong mode or with the wrong exposure). This sometimes
+led to people reporting that the pipeline had crashed (and so was
+unstable) but the purpose was to force the observer to stop and think
+about their observing run and ensure that they did not take many hours
+of data with their calibration observations being taken in a manner
+incompatible with the science data. A pro-active pipeline helped to
+prevent this and also made it easier to support flexible scheduling
+\citep{2002ASPC..281..488E,2004SPIE.5493...24A} without fearing that
+the data were unreducible.
 
 \subsection{Configurable Display System}
 
