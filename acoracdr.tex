@@ -832,7 +832,8 @@ To add a new instrument the following items must be considered:
 
 Once this has been decided new subclasses will have to be written to
 encode specialist behaviour for \Frame\ and \Group\ objects and the
-calibration system.
+calibration system, along with the instrument initialization class
+that declares the supported calibrations and algorithm engines.
 
 \section{Lessons Learned}
 
@@ -887,8 +888,10 @@ When ORAC-DR was being designed the choice was between IRAF
 At the time the answer was that Starlink messaging and error reporting were
 significantly more robust and allowed the \primitives\ to adjust their
 processing based on specific error states (such as there being too few
-stars in the field to solve the mosaicking offsets). From a software
-engineering perspective this was clearly the correct choice but it
+stars in the field to solve the mosaicking offsets). Additionally,
+Starlink supported variance propagation and a structured data format.
+From a software
+engineering perspective Starlink was clearly the correct choice but it
 turned out to be yet another reason why ORAC-DR could not be adopted
 by other telescopes. Both these environments relied on each command
 reading data from a disk file, processing it in some way and then
