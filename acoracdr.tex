@@ -506,11 +506,11 @@ the line counter is reset when the added code ends.
 
 Once a set of files have been found the header is read to determine
 how the data should be reduced. Files from the same observation are
-read into what is knowns as a \Frame\ object. This object contains all
+read into what is known as a \Frame\ object. This object contains all
 the metadata and pipeline context and, given that the current
 algorithm engines require files to be written, the name of the
 currently active intermediate file (or files for observations that
-eihter consist of multiple files or which generate multiple
+either consist of multiple files or which generate multiple
 intermediate files). In some cases, such as for ACSIS, a single
 observation can generate multiple files that are independent and in
 these cases multiple \Frame\ objects are created and they are
@@ -601,7 +601,7 @@ When a calibration image is reduced (using the same pipeline
 environment as science frames) the results of the processing are
 registered with the calibration system. Information such as the name
 of the file, the wavelength, the observing mode are all stored in the \Index.
-In the current system the \Index\ is a file on disk that is cached by
+In the current system the \Index\ is a text file on disk that is cached by
 the pipeline but the design would be no different if an SQL database
 was used instead; no \primitives\ would need to be modified to switch
 to an SQL backend.  The only requirement is that the \Index\ is
@@ -703,7 +703,7 @@ referred to as the file suffix, is used to indicate the reduction step
 that generated the file: \texttt{mos} for mosaic, \texttt{dk} for
 dark, etc. When a \Frame\ or \Group\ is passed to the display system
 the file suffix and, optionally a \Group\ versus \Frame\ indicator,
-are used to form an identifier that is compared with the entries in
+are used to form an identifier which is compared with the entries in
 the display configuration file (Fig.\ \ref{fig:disp}). For each row
 that matches with a suitable data type (image, spectrum, cube), the
 file will be handled by the stated image display tool. Additional
@@ -839,7 +839,7 @@ reasons, using, for example, numpy arrays or ``piddles''. For
 instruments where the size of a single observation approaches 1\,TB
 \citep[e.g., SWCam at CCAT;][]{2014SPIE9153-21} this presents a
 sizeable challenge but it seems clear that this is the current trend
-and a newly-written pipeline infrastructure would assume that all
+and a newly written pipeline infrastructure would assume that all
 algorithm work would be in memory.
 
 
@@ -923,7 +923,7 @@ use blocking I/O such as the display system or the file detection
 code. Being able to monitor new data arriving whilst creating a thread for the
 current data to be processed seems attractive but would probably have
 created more complication than would be acceptrable and using separate
-processes has worked despite it feeling ``kludgey''.
+processes has worked despite it feeling ``kludgy''.
 
 Similarly, the way the messaging interface was implemented meant that
 it was not possible to send multiple messages concurrently. The
