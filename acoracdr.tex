@@ -966,10 +966,10 @@ pipeline separately for each one. This is exactly how the the healpix
 processing for the JCMT Science Archive is implemented
 \citep{2014SPIE9152-93}. Parallelisation is therefore occuring at a
 level above the ORAC-DR pipeline itself. Currently, the UKIRT Science
-Archive \citep{2014ASPC..485..143B} reduces entire nights in a single
-process but this is less important for UKIRT data as it is uncommon
-for a later calibration observation to be usable by an earlier
-observation.
+Archive \citep{2014ASPC..485..143B} reduces data in two passes: first
+all the calibrations are reduced from a single night and then all the
+science data are reduced together. This is particularly important for
+the archival data taken before the ORAC software was released.
 
 The PiCARD \citep{SUN265} frontend to the infrastructure was developed
 to try to overcome some of the on-line bias in the data handling. The
