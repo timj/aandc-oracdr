@@ -504,6 +504,60 @@ to provide a complete translation of a \recipe.} and in particular the
 logging and profiling code are missing. As for the previous example,
 the line counter is reset when the added code ends.
 
+\subsection{Recipe Parameters}
+
+The general behaviour of a recipe can be controlled by editing it and
+adjusting the parameters passed to the \primitives. A much more
+flexible scheme is available which allows the person running the
+pipeline to specify a \recipe\ configuration file that can be used to
+control the behaviour of \recipe\ selection and how a \recipe\ behaves.
+
+The configuration file is a text file written in the INI
+format. Although it is possible for the \recipe\ to be specified on
+the command-line that \recipe\ would be used for all the files being
+reduced in the same batch and this is not an efficient way to
+permanently change the \recipe\ name. Changing the file header is not
+always possible so the configuration file can be written to allow
+per-object selection of \recipes. For example,
+
+\begin{quote}
+\begin{verbatim}
+[RECIPES_SCIENCE]
+OBJECT1=REDUCE_SCIENCE
+OBJECT2=REDUCE_FAINT_SOURCE
+A.*=BRIGHT_COMPACT
+\end{verbatim}
+\end{quote}
+
+would select \texttt{REDUCE\_SCIENCE} whenever a \emph{science}
+observation of OBJECT1 is encountered but choose
+\texttt{REDUCE\_FAINT\_SOURCE} whenever OBJECT2 is found. The third
+line is an example of a regular expression that can be used to select
+recipes based on a more general pattern match of the object name. This relies
+on header translation functioning to find the observation type and
+object name correctly. This sort of configuration is quite common when the
+Observing Tool has not been set up to switch recipes.
+
+Once a \recipe\ has been selected it can be configured as simple
+key-value pairs:
+
+\begin{quote}
+\begin{verbatim}
+[REDUCE_SCIENCE]
+PARAM1 = value1
+PARAM2 = value2
+
+[REDUCE_SCIENCE:A.*]
+PARAM1 = value3
+\end{verbatim}
+\end{quote}
+
+and here, again, the parameters selected can be controlled by a
+regular expression on the object name. The final set of parameters are
+made available to the primitives in a hash (see
+Fig.~\ref{fig:primhead} line 23).
+
+
 \subsection{Recipe Execution}
 \label{sec:exec}
 
@@ -845,6 +899,37 @@ sizeable challenge but it seems clear that this is the current trend
 and a newly written pipeline infrastructure would assume that all
 algorithm work would be in memory.
 
+\subsection{Recipe configuration is needed}
+
+Initially, the intent was for \recipes\ to be edited to suit different
+processing needs and for the processing to be entirely driven by the
+input data. This was driven strongly by the requirement that the
+pipeline should work at the telescope without requiring intervention
+from the observer. The initial design was meant to be that the
+astronomer would select their \recipe\ when they prepared the
+observation and that this would be the \recipe\ automatically picked
+up by the pipeline when the data were observed. Eventually we realised
+that anything more than two or three recipes to choose from (for
+example, is your object broad line or narrow line, or are your objects
+extremely faint point sources or bright extended structures?) in the
+Observing Tool became unwieldy and most people weren't sure how they
+wanted to optimize their data processing until they saw what the
+initial processing gave them.
+
+After many years of resistance a system was developed in 2009 for
+passing \recipe\ parameters from configuration files to the pipeline
+and this proved to be immensely popular. It is much simpler for people
+to tweak a small set of documented parameters than it is to edit
+recipes and it is also much easier to support many project-specific
+configuration files than it is to keept track of the differences
+between the equivalent number of bespoke recipes. When a processing
+job is submitted to the JCMT Science Archive any associated
+project-specific configuration file is automatically included, and
+these can be updated at any time based on feedback from the data
+products. It took far too long to add this functionality and this
+delay was partly driven by the overt focus on online functionality
+despite the shift to the pipeline being used predominantly in an
+offline setting. This is discussed further in the next section.
 
 \subsection{Online design confused offline use}
 \label{sec:onvoff}
