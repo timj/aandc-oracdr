@@ -820,6 +820,16 @@ display system running from within the \recipe\ to register the
 display request but for a separate process to be monitoring these
 requests and triggering the display.
 
+\subsection{Support modules}
+
+As well as the systems described above there are general support
+modules that provide a unified interface for message output, log files
+creation and temporary file handling. The messaging layer is required
+to allow messages from the algorithm engines and from the \primitives\
+to be sent to the right location. This might be a GUI, the terminal or
+a log file (or all at once) and supports different messaging levels to
+distinguish verbose messages, from normal messages and warnings.
+
 \section{Supporting New Instruments}
 
 An important part of the ORAC-DR philosophy is to make adding new
