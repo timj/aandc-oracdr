@@ -344,6 +344,18 @@ pipeline does not handle the data before the next quick look image
 arrives the gathering process will remove the flag file and delete the
 data before making the new data available.
 
+\subsection{File format conversion}
+
+Once files have been found they are first sent to the format
+conversion library. The instrument infrastructure defines what the
+external format of each file is expected to be and also the internal format
+expected by the reduction system. The format conversion system knows
+how to convert the files to the necessary form. This does not always
+involve a change in low level format (such as FITS to NDF) but can
+handle changes to instrument acquisition systems such as converting
+HDS files spread across header and exposure files into a single HDS
+container matching the modern UKIRT layout.
+
 \subsection{Recipe Parser}
 
 A \recipe\ is the top-level view of the data processing steps
