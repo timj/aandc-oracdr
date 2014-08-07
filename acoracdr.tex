@@ -573,7 +573,22 @@ observation can generate multiple files that are independent and in
 these cases multiple \Frame\ objects are created and they are
 processed independently. There is also a \Group\ object which
 contains the collection of \Frame\ objects that the pipeline should
-combine.
+combine. The hierarchy for the \Frame\ class is shown in
+Fig.~\ref{fig:frameclass}.
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{frame-class-hierarchy}
+\caption{Hierarchy for the \Frame\ class. The location of the ESO
+  classes reflects an historical anomaly associated with the early
+  development of the ESO instrument testing. LCO and Gemini
+  instruments also inherit from UKIRT, indicating that the UKIRT
+  functionality is not as UKIRT-centric as the name would suggest. The
+  second row contains file format specific routines. Most \Frame\
+  classes inherit from NDF and this is because most of the FITS-based
+  implementations do on the fly format conversion to NDF before the
+  \Frame\ object is instantiated.}
+\label{fig:frameclass}
+\end{figure*}
 
 The pipeline will have been configured for a particular instrument and
 the resulting \Frame\ and \Group\ objects will be instrument-specific subclasses.
