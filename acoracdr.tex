@@ -611,7 +611,13 @@ the resulting \Frame\ and \Group\ objects will be instrument-specific subclasses
 
 The \Frame\ object contains sufficient information to allow the
 pipeline to work out which \recipe\ should be used to reduce the
-data. The top-level \recipe\ is parsed and is then evaluated in the
+data. The \recipe\ itself is located by looking through a search path
+and modifiers can be specified to select recipe variants. For example,
+if the recipe would normally be \texttt{REDUCE\_SCIENCE} the pipeline
+can be configured to prefer a recipe suffix of \texttt{\_QL} to
+enable a quick-look version of a recipe to be selected at the summit
+whilst selecting the full recipe when running off-line.
+The top-level \recipe\ is parsed and is then evaluated in the
 parent pipeline context using the Perl \texttt{eval} function. The
 \recipe\ is called with the relevant \Frame, and \Group\ objects along
 with other context (see Fig.\ \ref{fig:primhead} for an example). The
