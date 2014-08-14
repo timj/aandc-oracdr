@@ -411,36 +411,37 @@ checked to decide whether the \primitive\ needs to be re-read.
 \begin{figure*}[t]
 \begin{lstlisting}[language=perl,numbers=left]
 sub {
-my $_PRIM_DEPTH_ = shift;
-my $_PRIM_CALLERS_ = shift;
-$_PRIM_DEPTH_++;
-die "Primitive depth very high ($_PRIM_DEPTH_). Possible recursive primitive"
-    if $_PRIM_DEPTH_ > 10;
-ORAC::Recipe::Execution->current_primitive( "_TEST_PRIMITIVE_", $_PRIM_CALLERS_);
-my $Frm = shift;
-my $Grp = shift;
-my $Cal = shift;
-my $Display = shift;
-my $Mon = shift;
-my $ORAC_Recipe_Info = shift;
-my $ORAC_PRIMITIVE = "_TEST_PRIMITIVE_";
-my $DEBUG = 0;
-my %_TEST_PRIMITIVE_ = @_;
-my $_PRIM_ARGS_ = \%_TEST_PRIMITIVE_;
-my $_PRIM_ARGS_STRING_ = ORAC::General::convert_args_to_string( %$_PRIM_ARGS_ );
-orac_loginfo( 'Primitive Arguments' => $_PRIM_ARGS_STRING_ );
-my $_PRIM_EPOCH_ = &Time::HiRes::gettimeofday();
-orac_logkey("_TEST_PRIMITIVE_");
-$Frm->set_app_name(Primitive=>"_TEST_PRIMITIVE_") if $Frm->can("set_app_name");
-my %RECPARS = %{$ORAC_Recipe_Info->{Parameters}};
-my %Mon;
-if (tied %$Mon) {
-my $obj = tied %$Mon;
-    tie %Mon, ref($obj), $obj; # re-tie
-} else {
-    %Mon = %$Mon;
-}
-#line 1 _TEST_PRIMITIVE_
+  my $_PRIM_DEPTH_ = shift;
+  my $_PRIM_CALLERS_ = shift;
+  $_PRIM_DEPTH_++;
+  die "Primitive depth very high ($_PRIM_DEPTH_). Possible recursive primitive"
+      if $_PRIM_DEPTH_ > 10;
+  ORAC::Recipe::Execution->current_primitive( "_TEST_PRIMITIVE_", $_PRIM_CALLERS_);
+  my $Frm = shift;
+  my $Grp = shift;
+  my $Cal = shift;
+  my $Display = shift;
+  my $Mon = shift;
+  my $ORAC_Recipe_Info = shift;
+  my $ORAC_PRIMITIVE = "_TEST_PRIMITIVE_";
+  my $DEBUG = 0;
+  my %_TEST_PRIMITIVE_ = @_;
+  my $_PRIM_ARGS_ = \%_TEST_PRIMITIVE_;
+  my $_PRIM_ARGS_STRING_ = ORAC::General::convert_args_to_string( %$_PRIM_ARGS_ );
+  orac_loginfo( 'Primitive Arguments' => $_PRIM_ARGS_STRING_ );
+  my $_PRIM_EPOCH_ = &Time::HiRes::gettimeofday();
+  orac_logkey("_TEST_PRIMITIVE_");
+  $Frm->set_app_name(Primitive=>"_TEST_PRIMITIVE_") if $Frm->can("set_app_name");
+  my %RECPARS = %{$ORAC_Recipe_Info->{Parameters}};
+  my %Mon;
+  if (tied %$Mon) {
+  my $obj = tied %$Mon;
+      tie %Mon, ref($obj), $obj; # re-tie
+  } else {
+      %Mon = %$Mon;
+  }
+  #line 1 _TEST_PRIMITIVE_
+  ...
 \end{lstlisting}
   \caption{Code added to the start of each \primitive. In this case
     the \primitive\ is called \texttt{\_TEST\_PRIMITIVE\_}. In
@@ -453,7 +454,9 @@ my $obj = tied %$Mon;
     and line 23 proceses \recipe\ parameters. Lines 24 to 30 deal with
     the algorithm engines and finally line 31 resets the line counter
     so that error messages from user-supplied \primitive\ code report
-    the line number as expected by the programmer.}
+    the line number as expected by the programmer. The user-supplied
+    \primitive\ code would be inserted from line 32 onwards and then
+    be followed by the code inserted to complete the primitive.}
 \label{fig:primhead}
 \end{figure*}
 
