@@ -211,6 +211,9 @@ data reduction pipelines
 \newcommand{\Group}{\emph{Group}}
 \newcommand{\Index}{\emph{index}}
 
+\newcommand{\oracdr}{\textsc{orac-dr}}
+\newcommand{\cgsdr}{\textsc{cgs}{\footnotesize 4}\textsc{dr}}
+
 %% Links
 \newcommand{\ascl}[1]{\href{http://www.ascl.net/#1}{ascl:#1}}
 
@@ -229,7 +232,7 @@ being imposed by the observatory. The observatories were required to
 support the delivered code and as operations budgets shrank the need
 to use a single infrastructure became more apparent.
 
-CGS4DR
+\cgsdr\
 \citep[][\ascl{1406.013}]{1992ASPC...25..479S,1996ASPC...87..223D} was
 the archetypal instrument-specific on-line data reduction system at
 UKIRT. The move from VMS to UNIX in the acqusition environment coupled
@@ -246,7 +249,7 @@ truly instrument agnostic pipeline capable of supporting different
 imaging modes and wavelength regimes.
 
 The Observatory Reduction and Acquisition Control Data Reduction pipeline
-\citep[ORAC-DR;][\ascl{1310.001}]{1999ASPC..172...11E,2008AN....329..295C} was
+\citep[\oracdr;][\ascl{1310.001}]{1999ASPC..172...11E,2008AN....329..295C} was
 the resulting system. In the sections that follow we present an
 overview of the architectural design and then describe the pipeline
 implementation. We finish by detailing lessons learned during the
@@ -254,7 +257,7 @@ lifetime of the project.
 
 \section{Architecture}
 
-The general architecture of the ORAC-DR system has been described
+The general architecture of the \oracdr\ system has been described
 elsewhere \citep{1999ASPC..172...11E,2008AN....329..295C}. To
 summarize, the system is split into discrete units with well-defined
 interfaces. The recipes define the processing steps that are required
@@ -267,11 +270,11 @@ engines that contain the detailed knowledge of how to process pixel
 data.  In all the currently supported instruments the algorithm
 engines are from the Starlink software collection
 \citep[][\ascl{1110.012}]{2014ASPC..485..391C} but this is not
-required by the ORAC-DR design.
+required by the \oracdr\ design.
 
 A key part of the architecture is that the pipeline can function
 entirely in a data-driven manner. All information required to reduce
-the data correctly must be available in the headers of the input data
+the data correctly must be available in the metadata of the input data
 files. This requires a systems engineering approach to observatory
 operations where the metadata are treated as equals to the science
 pixel data \citep[see e.g.,][for an overview of the JCMT and UKIRT
@@ -289,7 +292,7 @@ Perl or over a messaging interface supported by Perl.
 \subsection{Data Detection}
 
 The first step in reducing data is determining which data should be
-processed. ORAC-DR separates data detection from pipeline processing,
+processed. \oracdr\ separates data detection from pipeline processing,
 allowing for a number of different schemes for locating files. In
 on-line mode the pipeline is set up to assume an incremental delivery
 of data throughout the period the pipeline is running. Here we
@@ -301,7 +304,7 @@ The initial default scheme was to check whether a new file with the
 expected naming convention had appeared on disk. Whilst this can work
 if the appearance of the data file is instantaneous (for example, it
 is written to a temporary location and then renamed), it is all too
-easy to attempt to read a file that is being written too. Modifying
+easy to attempt to read a file that is being written to. Modifying
 legacy acquisition systems to do atomic file renames proved to be
 difficult and instead a ``flag'' file system was used.
 
@@ -323,7 +326,8 @@ since the previous check.
 
 Historically synchronization delays over NFS mounts caused
 difficulties when the flag file would appear but the actual data file
-had not yet arrived but this no longer seems to be an issue.
+had not yet appeared to the NFS client computer, but on modern systems
+this behavior no longer occurs.
 
 \subsubsection{Parameter monitoring}
 
@@ -332,7 +336,7 @@ requirement to be able to detect files taken at a rate of
 approximately 1\,Hz for stare observations. This was impractical using
 a single-threaded data detection system embedded in the pipeline process and
 using the file system. Therefore, for SCUBA-2 quick-look processing the
-pipeline launches a separate process that continually monitors the
+pipeline uses a separate process that continually monitors the
 four data acquisition computers using the DRAMA messaging system
 \citep{1995SPIE.2479...62B}. When all four sub-arrays indicate that a
 matched data set is available the monitored data are written to disk
@@ -441,7 +445,7 @@ my $obj = tied %$Mon;
   \caption{Code added to the start of each \primitive. In this case
     the \primitive\ is called \texttt{\_TEST\_PRIMITIVE\_}. In
     debugging mode additional lines would be present. This code has
-    been generated with the 2014A version of ORAC-DR. Line 1 indicates
+    been generated with the 2014A version of \oracdr. Line 1 indicates
     that this is an anonymous subroutine code reference and not a
     named subroutine. Lines 2 to 13 read the (internal) subroutine
     arguments and lines 16 to 19 process the user-supplied primitive
@@ -602,7 +606,7 @@ Fig.~\ref{fig:frameclass}.
 \label{fig:frameclass}
 \end{figure*}
 
-The pipeline will have been configured for a particular instrument and
+The pipeline will have been initialized to expect a particular instrument and
 the resulting \Frame\ and \Group\ objects will be instrument-specific subclasses.
 
 The \Frame\ object contains sufficient information to allow the
@@ -634,7 +638,7 @@ adjusts the \primitive\ selection code.
 
 \subsection{Header Translation}
 
-As more instruments were added to ORAC-DR it quickly became apparent
+As more instruments were added to \oracdr\ it quickly became apparent
 that many of the \primitives\ were being adjusted to support different
 variants of FITS headers through the use of repetitive if/then/else
 constructs. This was making it harder to support the code and it was
@@ -804,10 +808,10 @@ wish the final data products to be displayed in a particular
 way. Display logic such as this can not be embedded directly in
 \primitives; all a \primitive\ can do is indicate that a particular
 product \emph{could} be displayed and leave it to a different system
-to decided \emph{whether} the product should be displayed and how to
+to decide \emph{whether} the product should be displayed and how to
 do so.
 
-The display system uses the ORAC-DR file naming convention to
+The display system uses the \oracdr\ file naming convention to
 determine relevance. Usually, the text after the last underscore,
 referred to as the file suffix, is used to indicate the reduction step
 that generated the file: \texttt{mos} for mosaic, \texttt{dk} for
@@ -815,13 +819,15 @@ dark, etc. When a \Frame\ or \Group\ is passed to the display system
 the file suffix and, optionally a \Group\ versus \Frame\ indicator,
 are used to form an identifier which is compared with the entries in
 the display configuration file (Fig.\ \ref{fig:disp}). For each row
-that matches with a suitable data type (image, spectrum, cube), the
-file will be handled by the stated image display tool. Additional
+containing a matching identifier the files will be passed to the
+specific display tool. Different plot types are available such as
+image, spectrum, histogram, and vector plot and also a specific mode
+for plotting a 1-dimensional dataset over a corresponding model. Additional
 parameters can be used to control placement within a viewport and how
-auto-scaling is handled. The display system currently supports GAIA
-\citep[][\ascl{1403.024}]{2009ASPC..411..575D} and KAPPA
+auto-scaling is handled. The display system currently supports \textsc{gaia}
+\citep[][\ascl{1403.024}]{2009ASPC..411..575D} and \textsc{kappa}
 \citep[][\ascl{1403.022}]{SUN95} as well as the historical P4 tool
-(part of CGS4DR \citep{SUN27} and an important influence on the
+(part of \cgsdr\ \citep{SUN27} and an important influence on the
 design).
 
 Originally the display commands would be handled within the \recipe\
@@ -845,7 +851,7 @@ distinguish verbose messages, from normal messages and warnings.
 
 \section{Supporting New Instruments}
 
-An important part of the ORAC-DR philosophy is to make adding new
+An important part of the \oracdr\ philosophy is to make adding new
 instruments as painless as possible and re-use as much of the
 exisiting code as possible. The work required obviously depends on the
 type of instrument. An infrared array will be straightforward as many
@@ -857,7 +863,7 @@ To add a new instrument the following items must be considered:
 
 \begin{itemize}
 
-\item How are new data presented to the pipeline? ORAC-DR supports a
+\item How are new data presented to the pipeline? \oracdr\ supports a
   number of different data detection schemes but can't cover every option.
 
 \item What is the file format? All the current \recipes\ use Starlink
@@ -910,17 +916,17 @@ becoming the \emph{lingua franca} for new students in astronomy and
 the default scripting interface for new data reductions systems such
 as those for ALMA
 \citep{2007ASPC..376..127M} and LSST \citep{2010SPIE.7740E..15A}.
-In this environment, whilst ORAC-DR received much interest from other
-observatories the use of Perl rather than Python became a
+In this environment, whilst \oracdr\ received much interest from other
+observatories, the use of Perl rather than Python became a
 deal-breaker given the skillsets of development groups. During this
 period only two additional observatories adopted the pipeline: the
 Anglo-Australian Observatory for IRIS2 \citep{2004SPIE.5492..998T} and Las Cumbres
 Observatory for their imaging pipeline \citep{2013PASP..125.1031B}.
 
 The core design concepts were not at issue, indeed, Gemini adopted the
-key features of the ORAC-DR design in their Gemini Recipe System
+key features of the \oracdr\ design in their Gemini Recipe System
 \citep{2014ASPC..485..359L}. With approximately 100,000 lines of Perl code in
-ORAC-DR\footnote{For infrastructure and \primitives, but counting code only, with comments adding more than
+\oracdr\footnote{For infrastructure and \primitives, but counting code only, with comments adding more than
   100,00 lines to that
   number. Blank line count not included, nor are support modules from CPAN
   required by the pipeline but distributed separately.} it
@@ -933,7 +939,7 @@ moment can have significant consequences 15 years later.
 
 \subsection{In-memory versus intermediate files}
 
-When ORAC-DR was being designed the choice was between IRAF
+When \oracdr\ was being designed the choice was between IRAF
 \citep[][\ascl{9911.002}]{2012ASPC..461..595F} and Starlink for the algorithm engine.
 At the time the answer was that Starlink messaging and error reporting were
 significantly more robust and allowed the \primitives\ to adjust their
@@ -942,7 +948,7 @@ stars in the field to solve the mosaicking offsets). Additionally,
 Starlink supported variance propagation and a structured data format.
 From a software
 engineering perspective Starlink was clearly the correct choice but it
-turned out to be yet another reason why ORAC-DR could not be adopted
+turned out to be yet another reason why \oracdr\ could not be adopted
 by other telescopes. Both these environments relied on each command
 reading data from a disk file, processing it in some way and then
 writing the results out to either the same or a new file. Many of
@@ -1000,7 +1006,7 @@ offline setting. This is discussed further in the next section.
 \subsection{Online design confused offline use}
 \label{sec:onvoff}
 
-ORAC-DR was initially designed for on-line summit usage where data
+\oracdr\ was initially designed for on-line summit usage where data
 appear incrementally and where as much processing should be done on
 each frame whilst waiting for subsequent frames to arrive. As
 discussed previously (section~\ref{sec:exec}), this led to the
@@ -1013,7 +1019,7 @@ process all the individual science observations and finally do the
 group processing to generate mosaics and co-adds. When doing this the
 only context that would need to be passed between different \recipe\
 executions would be the calibration information that is already
-persistent. Indeed, the \recipes\ themselves could be signficantly
+persistent. Indeed, the \recipes\ themselves could be significantly
 simplified in that single observation \recipes\ would not include any
 group processing instructions. This is not strictly possible in all
 cases. For the ACSIS data reduction \recipes\ \citep{JennessACSISDR}
@@ -1031,7 +1037,7 @@ problems by scanning through a set of observations and running the
 pipeline separately for each one. This is exactly how the the healpix
 processing for the JCMT Science Archive is implemented
 \citep{2014SPIE9152-93}. Parallelisation is therefore occuring at a
-level above the ORAC-DR pipeline itself. Currently, the UKIRT Science
+level above the \oracdr\ pipeline itself. Currently, the UKIRT Science
 Archive \citep{2014ASPC..485..143B} reduces data in two passes: first
 all the calibrations are reduced from a single night and then all the
 science data are reduced together. This is particularly important for
@@ -1047,7 +1053,7 @@ to try to overcome some of the on-line bias in the data handling. The
 \textbf{R}educed \textbf{D}ata, was introduced in 2007
 \citep{2008ASPC..394..565J} specifically to allow the existing
 infrastructure to be leveraged in an off-line science archive
-environment. The ORAC-DR layer was removed and replaced with a
+environment. The \oracdr\ layer was removed and replaced with a
 simplified application that accepts a list of files, works out what
 type of instrument they come from, and uses the same parser to read
 the specified recipe.
@@ -1065,7 +1071,7 @@ It soon became clear that the benefits associated
 with running a parser over the \primitives\ were substantial. Not only
 could we minimize the use of repetitive code but we could dynamically
 add in profiling code. In fact, this was critical to the ongoing
-development of the ORAC-DR infrastructure as the current version of
+development of the \oracdr\ infrastructure as the current version of
 the parser is the third complete rewrite and none of the rewrites
 required any change to \primitive\ code. The first version of the
 parser did not use subroutines at all and simply expanded the \recipe\
@@ -1089,15 +1095,15 @@ ability to send four files to four separate, but identical, tasks in
 parallel, and waiting for them all to complete would have led to some
 efficiency games even if the tasks were all running on the single
 pipeline computer. We are again struggling with this issue as
-the SMURF map-maker \citep[][\ascl{310.007}]{2013MNRAS.430.2545C}, currently supported by
-ORAC-DR, is being modified to support
+the \textsc{smurf} map-maker \citep[][\ascl{310.007}]{2013MNRAS.430.2545C}, currently supported by
+\oracdr, is being modified to support
 multi-node operation using MPI \citep{2014ASPC..485..399M}. It may be
 that implementing MPI at the task level is much easier than at the
 messaging level but this remains to be tested.
 
 \section{Conclusions}
 
-ORAC-DR has been in use since 1998, running on four telescopes and ten
+\oracdr\ has been in use since 1998, running on four telescopes and ten
 instruments covering the submillimeter to the optical and imaging to
 IFUs. Prototype pipelines have also been developed for Gemini and ESO
 instruments to prove the inherent flexibility of the design
@@ -1112,10 +1118,10 @@ interested astronomers.
 
 \section*{Acknowledgments}
 
-ORAC-DR was initially developed for UKIRT as part of the ORAC Project
+\oracdr\ was initially developed for UKIRT as part of the ORAC Project
 \citep{1998SPIE.3349..184B}, and then further developed by the Joint
 Astronomy Centre to support JCMT and UKIRT instrumentation. We thank
-all the ORAC-DR recipe developers who have helped make the pipeline
+all the \oracdr\ recipe developers who have helped make the pipeline
 successful, and in particular we thank  Malcolm Currie, Brad Cavanagh,
 Andy Gibb, Paul Hirst,  Tim Lister and Stephen Todd for their
 significant contributions.
