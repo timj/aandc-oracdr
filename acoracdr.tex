@@ -697,7 +697,7 @@ two distinct operations: filing calibration results and querying those results.
 When a calibration image is reduced (using the same pipeline
 environment as science frames) the results of the processing are
 registered with the calibration system. Information such as the name
-of the file, the wavelength, the observing mode are all stored in the \Index.
+of the file, the wavelength, and the observing mode are all stored in the \Index.
 In the current system the \Index\ is a text file on disk that is cached by
 the pipeline but the design would be no different if an SQL database
 was used instead; no \primitives\ would need to be modified to switch
@@ -717,6 +717,7 @@ from a rules file for an imaging instrument dark calibration:
 OBSTYPE eq 'DARK'
 MODE eq $Hdr{MODE}
 EXP_TIME == $Hdr{EXP_TIME}
+MEANCOUNT
 \end{verbatim}
 }
 \end{quote}
@@ -744,6 +745,14 @@ where we make use of the fact that a bare number or quoted string on
 its own is effectively a no-op and the real logic begins after the
 statement separator.\footnote{\texttt{ORACTIME} is the standardised
 representation of the observation time of the \Frame.}
+
+The rules file itself represents the schema of the database in
+that for every line in the rules file, information from that
+calibration is stored in the \Index. In the example above,
+\texttt{MEANCOUNT} is not used in the rules processing but the
+presence of this item means that the corresponding value will be
+extracted from the header of the calibration image and registered in
+the calibration database.
 
 The calibration selection system can behave differently in off-line
 mode as the full set of calibrations can be made available and
@@ -851,12 +860,28 @@ requests and triggering the display.
 \subsection{Support modules}
 
 As well as the systems described above there are general support
-modules that provide a unified interface for message output, log files
-creation and temporary file handling. The messaging layer is required
+modules that provides standardized interfaces for message output, log files
+creation and temporary file handling.
+
+The message output layer is required
 to allow messages from the algorithm engines and from the \primitives\
 to be sent to the right location. This might be a GUI, the terminal or
 a log file (or all at once) and supports different messaging levels to
-distinguish verbose messages, from normal messages and warnings.
+distinguish verbose messages, from normal messages and
+warnings. Internally this is implemented as a tied object that
+emulates the file handle API and contains multiple objects to allow
+messages to be sent to multiple locations.
+
+Log files are a standard requirement for storing information of
+interest to the scientist about the processing such as
+quality assurance parameters or photometry results. The pipeline
+controls the opening of these files in a standard way so that the
+primitive writer simply has to worry about he content.
+
+With the current algorithm engines there are many intermediate files
+and most of them are temporary. The allocation of filenames is handled
+by the infrastructure and they are cleaned up automatically unless the
+pipeline is configuered in debugging mode to retain them.
 
 \section{Supporting New Instruments}
 
@@ -1118,6 +1143,40 @@ instruments covering the submillimeter to the optical and imaging to
 IFUs. Prototype pipelines have also been developed for Gemini and ESO
 instruments to prove the inherent flexibility of the design
 \citep{2003ASPC..295..237C,2004ASPC..314..460C}.
+
+The following are the key design successes of \oracdr:
+
+\begin{itemize}
+
+\item The clean separation of recipes, primitives, instrument
+  specification, logging, and algorithm engines. The core design is
+  unchanged from the beginning and there are clear benefits to putting
+  a single piece of information in a single component. The recipe
+  parser rewrite did not affect the pipeline users and neither did the
+  reorganization of the class hierarchy for \Frame\ and \Group\
+  classes.
+
+\item Reusing primitive code for new instruments was a key requirement
+  and this has worked; especially once header translation was
+  added. Las Cumbres Observatory are adding additional instruments to
+  the pipeline and can reuse the imaging \primitives, only modifying
+  code that defines the differences between instruments. A  similar approach
+  has been used by the LSST data management stack to allow it to
+  support different camera geometries \citep{2010SPIE.7740E..15A}.
+
+\item Defining the items of interest in the calibration rules file
+  guarantees that all the required information is available to the
+  calibration system whilst also making it trivial to add additional
+  information to the database.
+
+\item The pipeline was designed and developed in an operations
+  environment by people who were going to be supporting it every night
+  on two telescopes. This requires robust thinking from the beginning
+  to maximize usefulness of output and minimizing support calls in the
+  middle of the night. This drove us to design a system with a
+  maintainable and extensible design.
+
+\end{itemize}
 
 The design of the pipeline infrastructure succeeded in its goals of minimizing
 the amount of code needed for each new instrument delivery, re-using a
