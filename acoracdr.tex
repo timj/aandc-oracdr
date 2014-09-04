@@ -1142,13 +1142,15 @@ messaging level but this remains to be tested.
 instruments covering the submillimeter to the optical and imaging to
 IFUs. Prototype pipelines have also been developed for Gemini and ESO
 instruments to prove the inherent flexibility of the design
-\citep{2003ASPC..295..237C,2004ASPC..314..460C}.
+\citep{2003ASPC..295..237C,2004ASPC..314..460C} and the CCAT project
+are considering adopting it \citep{2014SPIE9152-109}.
 
-In an environment similar to that now promoted by the DevOps movement,
+In an environment similar to that now promoted by the DevOps movement
+\citep[see e.g.,][]{2014arXiv1407.6463E},
 we participated, together with our contributors, in the design,
 implementation, extension, operation, distribution and night-time
 telescope support of the pipeline as it was running on every night at
-UKIRT, JCMT and later the JCMT Science Archive over a period of 17
+UKIRT, JCMT and later the JCMT Science Archive over a period of 16
 years. We therefore had the opportunity to evaluate what features
 contributed to the easy extensibility and low maintainance cost of the
 codebase over a long period of time in a changing computing evironment.
@@ -1183,11 +1185,11 @@ infrastructues:
   calibration system whilst also making it trivial to add additional
   information to the database. Such techniques anticipate the evolving
   requirements of astronomical observing and built in a flexibility
-  that requires no, or minimal, chnages. It also externalises to
+  that requires no, or minimal, changes. It also externalises to
   instrument scientists important aspects of the pipeline operations
   in a human readable (and configurable) way.
 
-\item ORAC-DR was used at UKIRT and JCMT as a ``quick-look'' pipeline
+\item \oracdr\ was used at UKIRT and JCMT as a ``quick-look'' pipeline
   during observing (even though the data reduction quality was higher
   that the term suggests) and so was a vital part to the smooth
   functioning of the observatory. As is often the case, the pipeline
