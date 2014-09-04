@@ -235,7 +235,7 @@ to use a single infrastructure became more apparent.
 \cgsdr\
 \citep[][\ascl{1406.013}]{1992ASPC...25..479S,1996ASPC...87..223D} was
 the archetypal instrument-specific on-line data reduction system at
-UKIRT. The move from VMS to UNIX in the acqusition environment coupled
+UKIRT. The move from VMS to UNIX in the acquisition environment coupled
 with plans for rapid instrument development of UFTI
 \citep{2003SPIE.4841..901R}, MICHELLE \citep{1993ASPC...41..401G} and
 UIST \citep{2004SPIE.5492.1160R}, led to a decision to revamp the
@@ -265,7 +265,7 @@ using abstract language and no obvious software code. These recipes
 are expanded into executable code by a parser and this code is
 executed with the current state of the input data file objects and
 calibration system. The recipes call out to external ``algorithm
-engines'' using a standardised calling interface and it is these
+engines'' using a standardized calling interface and it is these
 engines that contain the detailed knowledge of how to process pixel
 data.  In all the currently supported instruments the algorithm
 engines are from the Starlink software collection
@@ -341,7 +341,7 @@ four data acquisition computers using the DRAMA messaging system
 \citep{1995SPIE.2479...62B}. When all four sub-arrays indicate that a
 matched data set is available the monitored data are written to disk
 and a flag file created. Since these data are ephemeral there is a
-slight change to flag file behaviour in that the pipeline will take
+slight change to flag file behavior in that the pipeline will take
 ownership of data it finds by renaming the flag file. If that happens
 the pipeline will be responsible for cleaning up; whereas if the
 pipeline does not handle the data before the next quick look image
@@ -373,7 +373,7 @@ to be picked up would be processed using the modified version of the
 \recipe\ and this is very important during instrument commissioning. An
 example, simplified, imaging \recipe\ is shown in Fig.\
 \ref{fig:recipe}. Each of these steps can be given parameters to
-modify their behaviour. The expectation was that these \recipes\ would
+modify their behavior. The expectation was that these \recipes\ would
 be loadable into a Recipe Editor GUI tool, although such a tool was
 never implemented.
 
@@ -488,7 +488,7 @@ Fig.\ \ref{fig:primhead} shows an example of the subroutine entry code generated
 parser. The design is such that adding new code to the entry and exit of each
 \primitive\ can be done in a few lines with little overhead.
 
-Calling algorithm engines is a very common occurence and is also where
+Calling algorithm engines is a very common occurrence and is also where
 most of the time is spent during \recipe\ execution. In order to
 minimize repetitive coding for error conditions and to allow for profiling, calls to
 algorithm engines are surrounded by code to automatically handle these
@@ -525,11 +525,11 @@ the line counter is reset when the added code ends.
 
 \subsection{Recipe Parameters}
 
-The general behaviour of a recipe can be controlled by editing it and
+The general behavior of a recipe can be controlled by editing it and
 adjusting the parameters passed to the \primitives. A much more
 flexible scheme is available which allows the person running the
 pipeline to specify a \recipe\ configuration file that can be used to
-control the behaviour of \recipe\ selection and how a \recipe\ behaves.
+control the behavior of \recipe\ selection and how a \recipe\ behaves.
 
 The configuration file is a text file written in the INI
 format. Although it is possible for the \recipe\ to be specified on
@@ -651,7 +651,7 @@ As more instruments were added to \oracdr\ it quickly became apparent
 that many of the \primitives\ were being adjusted to support different
 variants of FITS headers through the use of repetitive if/then/else
 constructs. This was making it harder to support the code and it was
-decided to modify the \primitives\ to use standardised headers. When a
+decided to modify the \primitives\ to use standardized headers. When a
 new \Frame\ object is created the headers are immediately translated
 to standard form and both the original and translated headers are
 available to \primitive\ authors.
@@ -743,7 +743,7 @@ ORACTIME ; abs( ORACTIME - $Hdr{ORACTIME} ) < 1.0
 
 where we make use of the fact that a bare number or quoted string on
 its own is effectively a no-op and the real logic begins after the
-statement separator.\footnote{\texttt{ORACTIME} is the standardised
+statement separator.\footnote{\texttt{ORACTIME} is the standardized
 representation of the observation time of the \Frame.}
 
 The rules file itself represents the schema of the database in
@@ -777,7 +777,7 @@ of data with their calibration observations being taken in a manner
 incompatible with the science data. A pro-active pipeline helped to
 prevent this and also made it easier to support flexible scheduling
 \citep{2002ASPC..281..488E,2004SPIE.5493...24A} without fearing that
-the data were unreducible.
+the data were uneducable.
 
 This hard-line approach to requiring fully calibrated observations,
 even if the PI's specific science goals did not require it, was
@@ -788,7 +788,7 @@ observatory data from the public domain for the length of their
 proprietary period, requires an observation as only being complete if
 fully calibratable. In that way, the telescope time's value is
 maximised by making the dataset useful to the widest range of its
-potential uses. To this end, the authors favour a model where for
+potential uses. To this end, the authors favor a model where for
 flexibly-scheduled PI-led facilities, calibration time is not deducted
 from the PI's allocation.
 
@@ -881,17 +881,17 @@ primitive writer simply has to worry about he content.
 With the current algorithm engines there are many intermediate files
 and most of them are temporary. The allocation of filenames is handled
 by the infrastructure and they are cleaned up automatically unless the
-pipeline is configuered in debugging mode to retain them.
+pipeline is configured in debugging mode to retain them.
 
 \section{Supporting New Instruments}
 
 An important part of the \oracdr\ philosophy is to make adding new
 instruments as painless as possible and re-use as much of the
-exisiting code as possible. The work required obviously depends on the
+existing code as possible. The work required obviously depends on the
 type of instrument. An infrared array will be straightforward as many
 of the \recipes\ will work with only minor adjustments. Adding support
 for an X-Ray telescope or radio interferometer would require
-signficantly more work on the recipes.
+significantly more work on the recipes.
 
 To add a new instrument the following items must be considered:
 
@@ -915,13 +915,13 @@ To add a new instrument the following items must be considered:
   parser can be configured to search in instrument-specific
   sub-directories and, for example, the Las Cumbres Observatory
   imaging recipes use the standard \primitives\ in many case but also
-  provide bespoke versions that handle the idiosyncracies of their
+  provide bespoke versions that handle the idiosyncrasies of their
   instrumentation.
 
 \end{itemize}
 
 Once this has been decided new subclasses will have to be written to
-encode specialist behaviour for \Frame\ and \Group\ objects and the
+encode specialist behavior for \Frame\ and \Group\ objects and the
 calibration system, along with the instrument initialization class
 that declares the supported calibrations and algorithm engines.
 
@@ -953,7 +953,7 @@ as those for ALMA
 \citep{2007ASPC..376..127M} and LSST \citep{2010SPIE.7740E..15A}.
 In this environment, whilst \oracdr\ received much interest from other
 observatories, the use of Perl rather than Python became a
-deal-breaker given the skillsets of development groups. During this
+deal-breaker given the skill sets of development groups. During this
 period only two additional observatories adopted the pipeline: the
 Anglo-Australian Observatory for IRIS2 \citep{2004SPIE.5492..998T} and Las Cumbres
 Observatory for their imaging pipeline \citep{2013PASP..125.1031B}.
@@ -999,10 +999,10 @@ As it turns out, the entire debate of Starlink versus IRAF is somewhat
 moot in the current funding climate and in an era where many pipeline
 environments \citep[e.g.,][]{2010SPIE.7740E..15A} are abandoning
 intermediate files and doing all processing in memory for performance
-reasons, using, for example, numpy arrays or ``piddles''. For
+reasons, using, for example, \texttt{numpy} arrays or ``piddles''. For
 instruments where the size of a single observation approaches 1\,TB
 \citep[e.g., SWCam at CCAT;][]{2014SPIE9153-21} this presents a
-sizeable challenge but it seems clear that this is the current trend
+sizable challenge but it seems clear that this is the current trend
 and a newly written pipeline infrastructure would assume that all
 algorithm work would be in memory.
 
@@ -1015,7 +1015,7 @@ pipeline should work at the telescope without requiring intervention
 from the observer. The initial design was meant to be that the
 astronomer would select their \recipe\ when they prepared the
 observation and that this would be the \recipe\ automatically picked
-up by the pipeline when the data were observed. Eventually we realised
+up by the pipeline when the data were observed. Eventually we realized
 that anything more than two or three recipes to choose from (for
 example, is your object broad line or narrow line, or are your objects
 extremely faint point sources or bright extended structures?) in the
@@ -1064,14 +1064,14 @@ better the baseline subtraction.
 
 As written, the recipes have to handle both on-line and off-line
 operation and this is achieved by the group \primitives\ being
-configured to be no-ops if they realise that the \Frame\ object that
+configured to be no-ops if they realize that the \Frame\ object that
 is currently being processed is not the final member of the group.
 Whilst the off-line restrictions can be annoying to someone reducing a
 night of data on their home machine, it is possible to deal with the
 problems by scanning through a set of observations and running the
 pipeline separately for each one. This is exactly how the the healpix
 processing for the JCMT Science Archive is implemented
-\citep{2014SPIE9152-93}. Parallelisation is therefore occuring at a
+\citep{2014SPIE9152-93}. Parallelization is therefore occurring at a
 level above the \oracdr\ pipeline itself. Currently, the UKIRT Science
 Archive \citep{2014ASPC..485..143B} reduces data in two passes: first
 all the calibrations are reduced from a single night and then all the
@@ -1121,7 +1121,7 @@ and this has led to some problems with components of the system that
 use blocking I/O such as the display system or the file detection
 code. Being able to monitor new data arriving whilst creating a thread for the
 current data to be processed seems attractive but would probably have
-created more complication than would be acceptrable and using separate
+created more complication than would be acceptable and using separate
 processes has worked despite it feeling ``kludgy''.
 
 Similarly, the way the messaging interface was implemented meant that
@@ -1152,12 +1152,12 @@ implementation, extension, operation, distribution and night-time
 telescope support of the pipeline as it was running on every night at
 UKIRT, JCMT and later the JCMT Science Archive over a period of 16
 years. We therefore had the opportunity to evaluate what features
-contributed to the easy extensibility and low maintainance cost of the
-codebase over a long period of time in a changing computing evironment.
+contributed to the easy extensibility and low maintenance cost of the
+codebase over a long period of time in a changing computing environment.
 
 We regard the following as key design successes of \oracdr, and hope
 to see them repeated in other astronomical data reduction
-infrastructues:
+infrastructures:
 
 \begin{itemize}
 
@@ -1168,7 +1168,7 @@ infrastructues:
   the infrastructure components that were in turn relatively agnostic
   about their implementation. Thus we were able to engage in major
   pieces of refactoring such as rewriting the recipe parser or
-  reorganising the class hierarchy for \Frame\ and \Group\ classes
+  reorganizing the class hierarchy for \Frame\ and \Group\ classes
   without affecting the pipeline users.
 
 \item Reusing primitive code for new instruments was a key requirement
@@ -1185,7 +1185,7 @@ infrastructues:
   calibration system whilst also making it trivial to add additional
   information to the database. Such techniques anticipate the evolving
   requirements of astronomical observing and built in a flexibility
-  that requires no, or minimal, changes. It also externalises to
+  that requires no, or minimal, changes. It also externalizes to
   instrument scientists important aspects of the pipeline operations
   in a human readable (and configurable) way.
 
@@ -1199,9 +1199,9 @@ infrastructues:
   pipeline'', despite the fact that an extensive suite of engineering
   interfaces were also available to the operators. We conclude from
   this that despite the understandable tendency to focus on the
-  scientfic user of the data, data reduction systems are often the
+  scientific user of the data, data reduction systems are often the
   first port of call for investigating technical issues. We frequently
-  utilised the completeness and readability of our file metadata to
+  utilized the completeness and readability of our file metadata to
   identify problems for our engineers, and so came to regard the data
   reduction infrastructure as a core technical element of a modern
   facility as well as a valuable scientific productivity tool.
