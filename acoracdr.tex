@@ -1144,45 +1144,73 @@ IFUs. Prototype pipelines have also been developed for Gemini and ESO
 instruments to prove the inherent flexibility of the design
 \citep{2003ASPC..295..237C,2004ASPC..314..460C}.
 
-The following are the key design successes of \oracdr:
+In an environment similar to that now promoted by the DevOps movement,
+we participated, together with our contributors, in the design,
+implementation, extension, operation, distribution and night-time
+telescope support of the pipeline as it was running on every night at
+UKIRT, JCMT and later the JCMT Science Archive over a period of 17
+years. We therefore had the opportunity to evaluate what features
+contributed to the easy extensibility and low maintainance cost of the
+codebase over a long period of time in a changing computing evironment. 
+
+We regard the following as key design successes of \oracdr, and hope
+to see them repeated in other astronomical data reduction
+infrastructues:
 
 \begin{itemize}
 
 \item The clean separation of recipes, primitives, instrument
   specification, logging, and algorithm engines. The core design is
-  unchanged from the beginning and there are clear benefits to putting
-  a single piece of information in a single component. The recipe
-  parser rewrite did not affect the pipeline users and neither did the
-  reorganization of the class hierarchy for \Frame\ and \Group\
-  classes.
+  unchanged from the beginning and we frequently reaped the benefits
+  of a design that meant that the science code was well isolated from
+  the infrastructure components that were in turn relatively agnostic
+  about their implementation. Thus we were able to engage in major
+  pieces of refactoring such as rewriting the recipe parser or
+  reorganising the class hierarchy for \Frame\ and \Group\ classes
+  without affecting the pipeline users.
 
 \item Reusing primitive code for new instruments was a key requirement
   and this has worked; especially once header translation was
-  added. Las Cumbres Observatory are adding additional instruments to
-  the pipeline and can reuse the imaging \primitives, only modifying
-  code that defines the differences between instruments. A  similar approach
-  has been used by the LSST data management stack to allow it to
-  support different camera geometries \citep{2010SPIE.7740E..15A}.
+  added. For example, Las Cumbres Observatory are adding additional
+  instruments to the pipeline and can reuse the imaging \primitives,
+  only modifying code that defines the differences between
+  instruments. A similar approach has been used by the LSST data
+  management stack to allow it to support different camera geometries
+  \citep{2010SPIE.7740E..15A}.
 
 \item Defining the items of interest in the calibration rules file
   guarantees that all the required information is available to the
   calibration system whilst also making it trivial to add additional
-  information to the database.
+  information to the database. Such techniques anticipate the evolving
+  requirements of astronomical observing and built in a flexibility
+  that requires no, or minimal, chnages. It also externalises to
+  instrument scientists important aspects of the pipeline operations
+  in a human readable (and configurable) way. 
 
-\item The pipeline was designed and developed in an operations
-  environment by people who were going to be supporting it every night
-  on two telescopes. This requires robust thinking from the beginning
-  to maximize usefulness of output and minimizing support calls in the
-  middle of the night. This drove us to design a system with a
-  maintainable and extensible design.
+\item ORAC-DR was used at UKIRT and JCMT as a ``quick-look'' pipeline
+  during observing (even though the data reduction quality was higher
+  that the term suggests) and so was a vital part to the smooth
+  functioning of the observatory. As is often the case, the pipeline
+  was often the first system to alert the observers that something had
+  gone awry with data taking, and so occasionally triggered night-time
+  support calls reporting that ``there was something wrong with the
+  pipeline'', despite the fact that an extensive suite of engineering
+  interfaces were also available to the operators. We conclude from
+  this that despite the understandable tendency to focus on the
+  scientfic user of the data, data reduction systems are often the
+  first port of call for investigating technical issues. We frequently
+  utilised the completeness and readability of our file metadata to
+  identify problems for our engineers, and so came to regard the data
+  reduction infrastructure as a core technical element of a modern
+  facility as well as a valuable scientific productivity tool.
 
 \end{itemize}
 
-The design of the pipeline infrastructure succeeded in its goals of minimizing
-the amount of code needed for each new instrument delivery, re-using a
-significant amount of code available to the community and in making a
-system that can be tweaked easily by instrument scientists and
-interested astronomers.
+Ultimately, the design of the pipeline infrastructure succeeded in its
+goals of minimizing the amount of code needed for each new instrument
+delivery, re-using a significant amount of code available to the
+community and in making a system that can be tweaked easily by
+instrument scientists and interested astronomers.
 
 
 \section*{Acknowledgments}
