@@ -498,36 +498,15 @@ Calling external packages is a very common occurrence and is also where
 most of the time is spent during \recipe\ execution. In order to
 minimize repetitive coding for error conditions and to allow for profiling, calls to
 external packages are surrounded by code to automatically handle these
-conditions. For example:
-
-\begin{lstlisting}[language=perl]
-$Mon{monolith}->obeyw("action","arg1=a");
-\end{lstlisting}
-
-is expanded significantly and becomes something akin to:
-
-\begin{lstlisting}[language=perl]
-my $OBEYW_STATUS=$Mon{monolith}->obeyw("action",
-    "arg1=a");
-if ($OBEYW_STATUS != ORAC__OK) {
-  orac_err ("Error in obeyw: $OBEYW_STATUS\n");
-  my $obeyw_args = "arg1=a arg2=b";
-  orac_print("Arguments were: ","blue");
-  orac_print("$obeyw_args\n\n","red");
-  if ($OBEYW_STATUS == ORAC__BADENG) {
-    orac_err("Monolith monolith has died.");
-    delete $Mon{monolith};
-  }
-  return $OBEYW_STATUS;
-}
-#line 5 _TEST_PRIMITIVE_
-\end{lstlisting}
-
-where much code has been left out of this example for
-clarity\footnote{The \texttt{oracdr\_parse\_recipe} command can be run
-to provide a complete translation of a \recipe.} and in particular the
-logging and profiling code are missing. As for the previous example,
-the line counter is reset when the added code ends.
+conditions. This allows the programmer to focus on the \recipe\ logic
+and not have to understand all the failure modes for a particular
+package.\footnote{The \texttt{oracdr\_parse\_recipe} command can be run
+to provide a complete translation of a \recipe.}  The parser is
+designed such that if a particular error code is important (for
+example there might be an error code indicating that a failure was due
+to there being too few stars in the image) then the automated error
+handling is changed if the \primitive\ writer is explicitly asking to
+check the return value from the external application.
 
 \subsection{Recipe Parameters}
 
