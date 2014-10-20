@@ -745,7 +745,12 @@ history themselves. This is true for the Starlink software where the
 NDF library, which already supported detailed history tracking, was
 updated to also support file provenance so that all ancestor files
 could be tracked \citep[see e.g.][for details on the provenance algorithm]{ndfjenness}.
-The history information automatically logged by the external
+We took this approach because we felt it was far too complicated to
+require that the pipeline infrastructure and \primitives\ track what
+is being done to the data files. Modifying the file I/O library meant
+that provenance tracking would be available to all users of the
+external packages (in this case the Starlink software applications)
+and not just the pipeline users. The history information automaticallylogged by the external
 applications is augmented by code in the pipeline that logs the
 primitive name whenever header information is synchronized to a file,
 and, optionally, all text messages that are output by a \primitive\ can be
