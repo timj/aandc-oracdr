@@ -758,31 +758,6 @@ stored as history items in the files written by the \primitive.
 
 \subsection{Configurable Display System}
 
-\begin{figure*}
-{\small
-\begin{verbatim}
-# Send raw frame to first Gaia window
-num type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
-raw type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
-
-# Send darsubtracted frame to first Gaia window
-dk  type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
-
-# Send flatfielded frame to first Gaia window
-ff  type=image tool=gaia region=0 window=0 autoscale=1 zautoscale=1
-
-# Send mosaic frame to second Gaia window
-g_mos type=image tool=gaia region=0 window=1 autoscale=1 zautoscale=1
-
-# Send polarimetry vectorplot (intensity image) to KAPVIEW window
-I type=vector tool=kapview region=0 window=0 autoscale=1 zautoscale=1
-\end{verbatim}
-}
-\caption{Sample display configuration file used as the default for the
-  UFTI instrument.}
-\label{fig:disp}
-\end{figure*}
-
 On-line pipelines are most useful when results are displayed to the
 observer. One complication with pipeline display is that different
 observers are interested in different intermediate data products or
@@ -800,7 +775,7 @@ that generated the file: \texttt{mos} for mosaic, \texttt{dk} for
 dark, etc. When a \Frame\ or \Group\ is passed to the display system
 the file suffix and, optionally a \Group\ versus \Frame\ indicator,
 are used to form an identifier which is compared with the entries in
-the display configuration file (Fig.\ \ref{fig:disp}). For each row
+the display configuration file. For each row
 containing a matching identifier the files will be passed to the
 specific display tool. Different plot types are available such as
 image, spectrum, histogram, and vector plot and also a specific mode
