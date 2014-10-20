@@ -779,7 +779,7 @@ of data with their calibration observations being taken in a manner
 incompatible with the science data. A pro-active pipeline helped to
 prevent this and also made it easier to support flexible scheduling
 \citep{2002ASPC..281..488E,2004SPIE.5493...24A} without fearing that
-the data were uneducable.
+the data were unreducible.
 
 This hard-line approach to requiring fully calibrated observations,
 even if the PI's specific science goals did not require it, was
@@ -1001,7 +1001,9 @@ As it turns out, the entire debate of Starlink versus IRAF is somewhat
 moot in the current funding climate and in an era where many pipeline
 environments \citep[e.g.,][]{2010SPIE.7740E..15A} are abandoning
 intermediate files and doing all processing in memory for performance
-reasons, using, for example, \texttt{numpy} arrays or ``piddles''. For
+reasons, using, for example, \texttt{numpy} arrays or ``piddles''\footnote{A
+ ``piddle'' is the common term for an array object in the Perl Data Language;
+ an instance of a \texttt{PDL} object.}. For
 instruments where the size of a single observation approaches 1\,TB
 \citep[e.g., SWCam at CCAT;][]{2014SPIE9153-21} this presents a
 sizable challenge but it seems clear that this is the current trend
@@ -1030,7 +1032,7 @@ passing \recipe\ parameters from configuration files to the pipeline
 and this proved to be immensely popular. It is much simpler for people
 to tweak a small set of documented parameters than it is to edit
 recipes and it is also much easier to support many project-specific
-configuration files than it is to keept track of the differences
+configuration files than it is to keep track of the differences
 between the equivalent number of bespoke recipes. When a processing
 job is submitted to the JCMT Science Archive any associated
 project-specific configuration file is automatically included, and
@@ -1186,14 +1188,14 @@ infrastructures:
   guarantees that all the required information is available to the
   calibration system whilst also making it trivial to add additional
   information to the database. Such techniques anticipate the evolving
-  requirements of astronomical observing and built in a flexibility
+  requirements of astronomical observing and build in a flexibility
   that requires no, or minimal, changes. It also externalizes to
   instrument scientists important aspects of the pipeline operations
   in a human readable (and configurable) way.
 
 \item \oracdr\ was used at UKIRT and JCMT as a ``quick-look'' pipeline
   during observing (even though the data reduction quality was higher
-  that the term suggests) and so was a vital part to the smooth
+  than the term suggests) and so was a vital part to the smooth
   functioning of the observatory. As is often the case, the pipeline
   was often the first system to alert the observers that something had
   gone awry with data taking, and so occasionally triggered night-time
