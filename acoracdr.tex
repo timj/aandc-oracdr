@@ -458,7 +458,7 @@ sub {
     arguments and lines 16 to 19 process the user-supplied primitive
     arguments. Lines 19 to 22 setup timing, logging and GUI updates
     and line 23 proceses \recipe\ parameters. Lines 24 to 30 deal with
-    the algorithm engines and finally line 31 resets the line counter
+    the external applications and finally line 31 resets the line counter
     so that error messages from user-supplied \primitive\ code report
     the line number as expected by the programmer. The user-supplied
     \primitive\ code would be inserted from line 32 onwards and then
@@ -494,10 +494,10 @@ Fig.\ \ref{fig:primhead} shows an example of the subroutine entry code generated
 parser. The design is such that adding new code to the entry and exit of each
 \primitive\ can be done in a few lines with little overhead.
 
-Calling algorithm engines is a very common occurrence and is also where
+Calling external packages is a very common occurrence and is also where
 most of the time is spent during \recipe\ execution. In order to
 minimize repetitive coding for error conditions and to allow for profiling, calls to
-algorithm engines are surrounded by code to automatically handle these
+external packages are surrounded by code to automatically handle these
 conditions. For example:
 
 \begin{lstlisting}[language=perl]
@@ -589,8 +589,8 @@ Fig.~\ref{fig:primhead} line 23).
 Once a set of files have been found the header is read to determine
 how the data should be reduced. Files from the same observation are
 read into what is known as a \Frame\ object. This object contains all
-the metadata and pipeline context and, given that the current
-algorithm engines require files to be written, the name of the
+the metadata and pipeline context and, given that the currently used
+applications require files to be written, the name of the
 currently active intermediate file (or files for observations that
 either consist of multiple files or which generate multiple
 intermediate files). In some cases, such as for ACSIS, a single
@@ -905,7 +905,7 @@ modules that provides standardized interfaces for message output, log files
 creation and temporary file handling.
 
 The message output layer is required
-to allow messages from the algorithm engines and from the \primitives\
+to allow messages from the external packages and from the \primitives\
 to be sent to the right location. This might be a GUI, the terminal or
 a log file (or all at once) and supports different messaging levels to
 distinguish verbose messages, from normal messages and
@@ -919,7 +919,7 @@ quality assurance parameters or photometry results. The pipeline
 controls the opening of these files in a standard way so that the
 primitive writer simply has to worry about he content.
 
-With the current algorithm engines there are many intermediate files
+With the current external applications there are many intermediate files
 and most of them are temporary. The allocation of filenames is handled
 by the infrastructure and they are cleaned up automatically unless the
 pipeline is configured in debugging mode to retain them.
@@ -942,7 +942,7 @@ To add a new instrument the following items must be considered:
   number of different data detection schemes but can't cover every option.
 
 \item What is the file format? All the current \recipes\ use Starlink
-  algorithm engines that require NDF \citep{ndfjenness} and if FITS
+  applications that require NDF \citep{ndfjenness} and if FITS
   files are detected the infrastructure converts them to NDF before
   handing them to the rest of the system. If the raw data are in HDF5,
   or use a very complex data model on top of FITS, new code will have
@@ -964,7 +964,7 @@ To add a new instrument the following items must be considered:
 Once this has been decided new subclasses will have to be written to
 encode specialist behavior for \Frame\ and \Group\ objects and the
 calibration system, along with the instrument initialization class
-that declares the supported calibrations and algorithm engines.
+that declares the supported calibrations and applications.
 
 \section{Lessons Learned}
 
@@ -1016,7 +1016,8 @@ moment can have significant consequences 15 years later.
 \subsection{In-memory versus intermediate files}
 
 When \oracdr\ was being designed the choice was between IRAF
-\citep[][\ascl{9911.002}]{2012ASPC..461..595F} and Starlink for the algorithm engine.
+\citep[][\ascl{9911.002}]{2012ASPC..461..595F} and Starlink for the
+external packages.
 At the time the answer was that Starlink messaging and error reporting were
 significantly more robust and allowed the \primitives\ to adjust their
 processing based on specific error states (such as there being too few
@@ -1205,7 +1206,7 @@ infrastructures:
 \begin{itemize}
 
 \item The clean separation of recipes, primitives, instrument
-  specification, logging, and algorithm engines. The core design is
+  specification, logging, and external applications. The core design is
   unchanged from the beginning and we frequently reaped the benefits
   of a design that meant that the science code was well isolated from
   the infrastructure components that were in turn relatively agnostic
