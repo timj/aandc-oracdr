@@ -265,14 +265,18 @@ interfaces. The recipes define the processing steps that are required
 using abstract language and no obvious software code. These recipes
 are expanded into executable code by a parser and this code is
 executed with the current state of the input data file objects and
-calibration system. The recipes call out to external ``algorithm
-engines'' using a standardized calling interface and it is these
-engines that contain the detailed knowledge of how to process pixel
-data.  In all the currently supported instruments the algorithm
-engines are from the Starlink software collection
-\citep[][\ascl{1110.012}]{2014ASPC..485..391C} and use the ADAM
+calibration system. The recipes call out to external
+packages\footnote{These are known as ``algorithm engines'' in the
+ ORAC-DR documentation.} using a standardized calling interface and it is these
+applications that contain the detailed knowledge of how to process pixel
+data. In all the currently supported instruments the external algorithm
+code is from the Starlink software collection
+\citep[][\ascl{1110.012}]{2014ASPC..485..391C} and uses the ADAM
 messaging system \citep{1992ASPC...25..126A}, but this is not
-required by the \oracdr\ design.
+required by the \oracdr\ design. There was a deliberate decision to
+separate the core pipeline functionality from the high-performance
+data processing applications so that one single application
+infrastructure was not locked in.
 
 A key part of the architecture is that the pipeline can function
 entirely in a data-driven manner. All information required to reduce
