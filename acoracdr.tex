@@ -588,13 +588,8 @@ inherit knowledge of shared JCMT headers without requiring that the
 translations be duplicated. Each class is passed the input header and
 reports whether the class can process it, and it is an error for multiple
 classes to be able to process a single header. A method exists for each
-target generic header and has the form:
-
-\begin{lstlisting}[language=perl]
-$genericvalue = $class->_to_GENERIC_NAME(\%fits);
-\end{lstlisting}
-
-where, for example the method to calculate the start airmass would be
+target generic header where,
+for example, the method to calculate the start airmass would be
 \texttt{\_to\_AIRMASS\_START}. The simple unit mappings (where there
 is a one-to-one mapping of an instrument header to a generic header
 without requiring changes to units) are defined as simple Perl lookup tables
