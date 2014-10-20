@@ -414,58 +414,6 @@ text of the \primitive\ for debugging purposes. Whenever a \primitive\
 code reference is about to be executed the modification time is
 checked to decide whether the \primitive\ needs to be re-read.
 
-\begin{figure*}[t]
-\begin{lstlisting}[language=perl,numbers=left]
-sub {
-  my $_PRIM_DEPTH_ = shift;
-  my $_PRIM_CALLERS_ = shift;
-  $_PRIM_DEPTH_++;
-  die "Primitive depth very high ($_PRIM_DEPTH_). Possible recursive primitive"
-      if $_PRIM_DEPTH_ > 10;
-  ORAC::Recipe::Execution->current_primitive( "_TEST_PRIMITIVE_", $_PRIM_CALLERS_);
-  my $Frm = shift;
-  my $Grp = shift;
-  my $Cal = shift;
-  my $Display = shift;
-  my $Mon = shift;
-  my $ORAC_Recipe_Info = shift;
-  my $ORAC_PRIMITIVE = "_TEST_PRIMITIVE_";
-  my $DEBUG = 0;
-  my %_TEST_PRIMITIVE_ = @_;
-  my $_PRIM_ARGS_ = \%_TEST_PRIMITIVE_;
-  my $_PRIM_ARGS_STRING_ = ORAC::General::convert_args_to_string( %$_PRIM_ARGS_ );
-  orac_loginfo( 'Primitive Arguments' => $_PRIM_ARGS_STRING_ );
-  my $_PRIM_EPOCH_ = &Time::HiRes::gettimeofday();
-  orac_logkey("_TEST_PRIMITIVE_");
-  $Frm->set_app_name(Primitive=>"_TEST_PRIMITIVE_") if $Frm->can("set_app_name");
-  my %RECPARS = %{$ORAC_Recipe_Info->{Parameters}};
-  my %Mon;
-  if (tied %$Mon) {
-  my $obj = tied %$Mon;
-      tie %Mon, ref($obj), $obj; # re-tie
-  } else {
-      %Mon = %$Mon;
-  }
-  #line 1 _TEST_PRIMITIVE_
-  ...
-\end{lstlisting}
-  \caption{Code added to the start of each \primitive. In this case
-    the \primitive\ is called \texttt{\_TEST\_PRIMITIVE\_}. In
-    debugging mode additional lines would be present. This code has
-    been generated with the 2014A version of \oracdr. Line 1 indicates
-    that this is an anonymous subroutine code reference and not a
-    named subroutine. Lines 2 to 13 read the (internal) subroutine
-    arguments and lines 16 to 19 process the user-supplied primitive
-    arguments. Lines 19 to 22 setup timing, logging and GUI updates
-    and line 23 proceses \recipe\ parameters. Lines 24 to 30 deal with
-    the external applications and finally line 31 resets the line counter
-    so that error messages from user-supplied \primitive\ code report
-    the line number as expected by the programmer. The user-supplied
-    \primitive\ code would be inserted from line 32 onwards and then
-    be followed by the code inserted to complete the primitive.}
-\label{fig:primhead}
-\end{figure*}
-
 The parser is also responsible for adding additional code at the
 start of the \primitive\ to allow it to integrate into the general
 pipeline infrastructure. This code includes:
@@ -478,7 +426,7 @@ pipeline infrastructure. This code includes:
   and use a simple \texttt{KEYWORD=VALUE} syntax
   and can not be handled directly by the Perl interpreter.
 
-\item Trapping for primitive call recursion.
+\item Trapping for \primitive\ call recursion.
 
 \item Debugging information
 such as timers to allow profile information be
@@ -488,11 +436,18 @@ a routine is in use.
 \item Callbacks to GUI code to indicate which \primitive\ is
 currently active.
 
+\item Configuring the logging system so that all messages appearing
+ will be associated with the correct primitive when they are written
+to the history blocks (see \S\ref{sec:prov} for details).
+
 \end{itemize}
 
-Fig.\ \ref{fig:primhead} shows an example of the subroutine entry code generated automatically by the
-parser. The design is such that adding new code to the entry and exit of each
-\primitive\ can be done in a few lines with little overhead.
+The design is such that adding new code to the entry and exit of each
+\primitive\ can be done in a few lines with little overhead. In
+particular, use is made of the \verb|#line| directive in Perl that
+allows for the line number to be manipulated such that error messages
+reflect the line number in the original \primitive\ and not the line
+number in the expanded \primitive.
 
 Calling external packages is a very common occurrence and is also where
 most of the time is spent during \recipe\ execution. In order to
@@ -558,9 +513,7 @@ PARAM1 = value3
 
 and here, again, the parameters selected can be controlled by a
 regular expression on the object name. The final set of parameters are
-made available to the primitives in a key-value lookup table (see
-Fig.~\ref{fig:primhead} line 23).
-
+made available to the primitives in a key-value lookup table.
 
 \subsection{Recipe Execution}
 \label{sec:exec}
@@ -608,7 +561,7 @@ whilst selecting the full recipe when running off-line.
 The top-level \recipe\ is parsed and is then evaluated in the
 parent pipeline context using the Perl \texttt{eval} function. The
 \recipe\ is called with the relevant \Frame, and \Group\ objects along
-with other context (see Fig.\ \ref{fig:primhead} for an example). The
+with other context. The
 reason we use \texttt{eval} rather than running the recipe in a
 distinct process is to allow the recipe to update the state. As
 discussed in section \ref{sec:onvoff}, the pipeline is designed to
@@ -778,6 +731,7 @@ flexibly-scheduled PI-led facilities, calibration time is not deducted
 from the PI's allocation.
 
 \subsection{Provenance Tracking}
+\label{sec:prov}
 
 For the outputs from a data reduction pipeline it is important for
 astronomers to understand what was done to the data and how they can
