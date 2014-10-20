@@ -575,7 +575,7 @@ PARAM1 = value3
 
 and here, again, the parameters selected can be controlled by a
 regular expression on the object name. The final set of parameters are
-made available to the primitives in a hash (see
+made available to the primitives in a key-value lookup table (see
 Fig.~\ref{fig:primhead} line 23).
 
 
@@ -676,7 +676,7 @@ $genericvalue = $class->_to_GENERIC_NAME(\%fits);
 where, for example the method to calculate the start airmass would be
 \texttt{\_to\_AIRMASS\_START}. The simple unit mappings (where there
 is a one-to-one mapping of an instrument header to a generic header
-without requiring changes to units) are defined as simple Perl hashes
+without requiring changes to units) are defined as simple Perl lookup tables
 but at compile-time the corresponding methods are generated so that
 there is no difference in interface for these cases. Complex mappings
 that may involve multiple input FITS headers, are written as explicit
