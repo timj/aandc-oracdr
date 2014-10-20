@@ -798,6 +798,41 @@ potential uses. To this end, the authors favor a model where for
 flexibly-scheduled PI-led facilities, calibration time is not deducted
 from the PI's allocation.
 
+\subsection{Provenance Tracking}
+
+For the outputs from a data reduction pipeline it is important for
+astronomers to understand what was done to the data and how they can
+reproduce the processing steps. \oracdr\ manages this provenance and
+history tracking in a number of different ways. The pipeline makes available to
+\primitives\ the commit ID (SHA1) of the pipeline software and the
+commit ID of the external application package. It is up to the
+\recipe\ to determine whether use should be made of that
+information. For the \recipes\ that run at the JCMT Science Archive
+\citep{2014Economou} there is code that inserts this information, and
+the \recipe\ name, into data headers. Summit processing \recipes\ do
+not include this detail as the products are generally thought to be
+transient in nature as the \recipes\ are optimized for speed and
+quality assurance tracking rather than absolute data quality. One
+caveat in this approach is that an end-user who modifies a
+\recipe\ will not see any change as the commit ID will not have
+changed. This was thought to be of secondary importance compared to
+the major use case of archive processing but does need consideration
+before the reproducibility aspects of data reduction can be considered
+complete.
+
+Detailed tracking of the individual steps of the processing are
+handled differently in that the pipeline is written with the
+assumption that the external applications will track provenance and
+history themselves. This is true for the Starlink software where the
+NDF library, which already supported detailed history tracking, was
+updated to also support file provenance so that all ancestor files
+could be tracked \citep[see e.g.][for details on the provenance algorithm]{ndfjenness}.
+The history information automatically logged by the external
+applications is augmented by code in the pipeline that logs the
+primitive name whenever header information is synchronized to a file,
+and, optionally, all text messages that are output by a \primitive\ can be
+stored as history items in the files written by the \primitive.
+
 \subsection{Configurable Display System}
 
 \begin{figure*}
