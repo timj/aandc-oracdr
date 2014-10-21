@@ -315,7 +315,13 @@ since the previous check.
 Historically synchronization delays over NFS mounts caused
 difficulties when the flag file would appear but the actual data file
 had not yet appeared to the NFS client computer, but on modern systems
-this behavior no longer occurs.
+this behavior no longer occurs. Modern file event notification schemes
+(such as \texttt{inotify} on Linux) do not generally help with the
+data detection problem since, in the current setup, the data reduction
+pipelines always  mount the data disks from the acquisition computer
+over NFS. A more robust solution is to implement a publish/subscribe
+system whereby the pipeline monitors the acquisition computers for new
+data. Such a scheme is discussed in the next section.
 
 \subsubsection{Parameter monitoring}
 
