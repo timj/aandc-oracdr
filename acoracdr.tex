@@ -315,8 +315,9 @@ also look a few ahead in case the acquisition system had crashed) and
 use that to trigger processing of the primary data file.
 
 As more complex instruments arrived capable of writing multiple files
-for a single observation (either in parallel or sequentially)
-\citep{2009MNRAS.399.1026B,2013MNRAS.430.2513H} the flag system was
+for a single observation (either in parallel
+\citep[SCUBA-2;][]{2013MNRAS.430.2513H} or sequentially
+\citep[ACSIS;][]{2009MNRAS.399.1026B}) the flag system was
 modified to allow the pipeline to monitor a single flag file but
 storing the names of the relevant data files inside the file (one file
 per line). For the instruments writing files sequentially the pipeline
