@@ -646,23 +646,10 @@ the \Index\ and the \texttt{\$Hdr} corresponding to the science
 header. In the above example the
 calibration would match if the exposure times and observing readout
 mode match and the calibration itself is a dark.
-
 These rules are evaluated using the Perl \texttt{eval} command
-so the full Perl interpreter is available. The following common idiom
-is used to filter out calibration observations that are too old:
-
-\begin{quote}
-{\small
-\begin{verbatim}
-ORACTIME ; abs( ORACTIME - $Hdr{ORACTIME} ) < 1.0
-\end{verbatim}
-}
-\end{quote}
-
-where we make use of the fact that a bare number or quoted string on
-its own is effectively a no-op and the real logic begins after the
-statement separator.\footnote{\texttt{ORACTIME} is the standardized
-representation of the observation time of the \Frame.}
+so the full Perl interpreter is available. This allows for
+complex rules to be generated such as a rule that allows a calibration to expire
+if it is too old.
 
 The rules file itself represents the schema of the database in
 that for every line in the rules file, information from that
@@ -670,7 +657,13 @@ calibration is stored in the \Index. In the example above,
 \texttt{MEANCOUNT} is not used in the rules processing but the
 presence of this item means that the corresponding value will be
 extracted from the header of the calibration image and registered in
-the calibration database.
+the calibration database. Once an item is stored in the calibration
+database a calibration query will make that value available in
+addition to the name of the matching calibration file.
+It is therefore simple for the instrument
+scientist to add a new header for tracking, although this does require
+that the old \Index\ is removed and the data reprocessed to regenerate
+a new \Index\ in the correct form.
 
 The calibration selection system can behave differently in off-line
 mode as the full set of calibrations can be made available and
@@ -678,7 +671,7 @@ calibrations taken after the current observation may be relevant. Each
 instrument's calibration class can decide whether this is an
 appropriate behavior.
 
-The calibration system can be modified by a command-line argument at
+The calibration system can also be modified by a command-line argument at
 run time to allow the user to decide which behavior to use. For
 example, with the SCUBA pipeline \citep{1999ASPC..172..171J} the user
 can decide which opacity calibration scheme they require from a number
