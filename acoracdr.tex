@@ -420,7 +420,7 @@ currently active.
 
 \item Configuring the logging system so that all messages appearing
  will be associated with the correct primitive when they are written
-to the history blocks (see \S\ref{sec:prov} for details).
+to the history blocks (see \secref{sec:prov} for details).
 
 \end{itemize}
 
@@ -531,7 +531,7 @@ parent pipeline context using the Perl \texttt{eval} function. The
 with other context. The
 reason we use \texttt{eval} rather than running the recipe in a
 distinct process is to allow the recipe to update the state. As
-discussed in section \ref{sec:onvoff}, the pipeline is designed to
+discussed in \secref{sec:onvoff}, the pipeline is designed to
 function in an incremental mode where data are reduced as they arrive,
 with group co-adding either happening incrementally or waiting for a
 set cadence to complete. This requires that the group processing stage
@@ -956,7 +956,7 @@ offline setting. This is discussed further in the next section.
 \oracdr\ was initially designed for on-line summit usage where data
 appear incrementally and where as much processing should be done on
 each frame whilst waiting for subsequent frames to arrive. As
-discussed previously (section~\ref{sec:exec}), this led to the
+discussed previously (\secref{sec:exec}), this led to the
 execution of the \recipe\ within the main process so that context
 could be shared easily.
 
