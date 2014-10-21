@@ -267,7 +267,18 @@ files. This requires a systems engineering approach to observatory
 operations where the metadata are treated as equals to the science
 pixel data \citep[see e.g.,][for an overview of the JCMT and UKIRT
 approach]{2011tfa..confE..42J} and all observing modes are designed
-with observation preparation and data reduction in mind.
+with observation preparation and data reduction in mind. An overview
+of the pipeline process is show in Fig.~\ref{fig:flow}.
+
+\begin{figure*}
+\includegraphics[width=\textwidth]{oracdr-flow}
+\caption{Outline of the control flow in ORAC-DR for a single
+  observation. For multiple observations the pipeline will either
+  check for more data at the end of the \recipe\ execution (on-line
+  mode) or read all files and do group assignments before looping
+  over groups (batch mode).}
+\label{fig:flow}
+\end{figure*}
 
 \section{Implementation}
 
