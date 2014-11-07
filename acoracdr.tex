@@ -210,7 +210,7 @@ with its own distinct data reduction system that reused very little
 code from previous instruments. In part this was due to the rapid
 change in hardware and software technologies during the period, but it
 was also driven by the instrument projects being delivered
-by independent project teams with no standardisation requirements
+by independent project teams with no standardization requirements
 being imposed by the observatory. The observatories were required to
 support the delivered code and as operations budgets shrank the need
 to use a single infrastructure became more apparent.
@@ -264,11 +264,11 @@ A key part of the architecture is that the pipeline can function
 entirely in a data-driven manner. All information required to reduce
 the data correctly must be available in the metadata of the input data
 files. This requires a systems engineering approach to observatory
-operations where the metadata are treated as equals to the science
+operations where the metadata are treated as equal to the science
 pixel data \citep[see e.g.,][for an overview of the JCMT and UKIRT
 approach]{2011tfa..confE..42J} and all observing modes are designed
 with observation preparation and data reduction in mind. An overview
-of the pipeline process is show in Fig.~\ref{fig:flow}.
+of the pipeline process is shown in Fig.~\ref{fig:flow}.
 
 \begin{figure*}
 \includegraphics[width=\textwidth]{oracdr-flow}
@@ -345,7 +345,7 @@ using the file system. Therefore, for SCUBA-2 quick-look processing the
 pipeline uses a separate process that continually monitors the
 four data acquisition computers using the DRAMA messaging system
 \citep{1995SPIE.2479...62B}. When all four sub-arrays indicate that a
-matched data set is available the monitored data are written to disk
+matched dataset is available the monitored data are written to disk
 and a flag file created. Since these data are ephemeral there is a
 slight change to flag file behavior in that the pipeline will take
 ownership of data it finds by renaming the flag file. If that happens
@@ -424,12 +424,12 @@ pipeline infrastructure. This code includes:
   argument stack and parsing of parameters passed to the \primitive\
   by the caller. These arguments are designed not be language-specific
   and use a simple \texttt{KEYWORD=VALUE} syntax
-  and can not be handled directly by the Perl interpreter.
+  and cannot be handled directly by the Perl interpreter.
 
 \item Trapping for \primitive\ call recursion.
 
 \item Debugging information
-such as timers to allow profile information be
+such as timers to allow profile information to be
 collected, and entry and exit log messages to indicate exactly when
 a routine is in use.
 
@@ -512,13 +512,13 @@ PARAM1 = value3
 \end{quote}
 
 and here, again, the parameters selected can be controlled by a
-regular expression on the object name. The final set of parameters are
+regular expression on the object name. The final set of parameters is
 made available to the primitives in a key-value lookup table.
 
 \subsection{Recipe Execution}
 \label{sec:exec}
 
-Once a set of files have been found the header is read to determine
+Once a set of files has been found the header is read to determine
 how the data should be reduced. Files from the same observation are
 read into what is known as a \Frame\ object. This object contains all
 the metadata and pipeline context and, given that the currently used
@@ -698,7 +698,7 @@ as the data owner, but rather as somebody who is being leased
 observatory data from the public domain for the length of their
 proprietary period, requires an observation as only being complete if
 fully calibratable. In that way, the telescope time's value is
-maximised by making the dataset useful to the widest range of its
+maximized by making the dataset useful to the widest range of its
 potential uses. To this end, the authors favor a model where for
 flexibly-scheduled PI-led facilities, calibration time is not deducted
 from the PI's allocation.
@@ -726,7 +726,7 @@ the major use case of archive processing but does need consideration
 before the reproducibility aspects of data reduction can be considered
 complete.
 
-Detailed tracking of the individual steps of the processing are
+Detailed tracking of the individual steps of the processing is
 handled differently in that the pipeline is written with the
 assumption that the external applications will track provenance and
 history themselves. This is true for the Starlink software where the
@@ -750,7 +750,7 @@ On-line pipelines are most useful when results are displayed to the
 observer. One complication with pipeline display is that different
 observers are interested in different intermediate data products or
 wish the final data products to be displayed in a particular
-way. Display logic such as this can not be embedded directly in
+way. Display logic such as this cannot be embedded directly in
 \primitives; all a \primitive\ can do is indicate that a particular
 product \emph{could} be displayed and leave it to a different system
 to decide \emph{whether} the product should be displayed and how to
@@ -787,7 +787,7 @@ requests and triggering the display.
 \subsection{Support modules}
 
 As well as the systems described above there are general support
-modules that provides standardized interfaces for message output, log files
+modules that provide standardized interfaces for message output, log files
 creation and temporary file handling.
 
 The message output layer is required
@@ -803,7 +803,7 @@ Log files are a standard requirement for storing information of
 interest to the scientist about the processing such as
 quality assurance parameters or photometry results. The pipeline
 controls the opening of these files in a standard way so that the
-primitive writer simply has to worry about he content.
+primitive writer simply has to worry about the content.
 
 With the current external applications there are many intermediate files
 and most of them are temporary. The allocation of filenames is handled
@@ -825,7 +825,7 @@ To add a new instrument the following items must be considered:
 \begin{itemize}
 
 \item How are new data presented to the pipeline? \oracdr\ supports a
-  number of different data detection schemes but can't cover every option.
+  number of different data detection schemes but cannot cover every option.
 
 \item What is the file format? All the current \recipes\ use Starlink
   applications that require NDF \citep{ndfjenness} and if FITS
@@ -841,7 +841,7 @@ To add a new instrument the following items must be considered:
   the instrument is to an instrument already supported. The \recipe\
   parser can be configured to search in instrument-specific
   sub-directories and, for example, the Las Cumbres Observatory
-  imaging recipes use the standard \primitives\ in many case but also
+  imaging recipes use the standard \primitives\ in many cases but also
   provide bespoke versions that handle the idiosyncrasies of their
   instrumentation.
 
@@ -949,7 +949,7 @@ up by the pipeline when the data were observed. Eventually we realized
 that anything more than two or three recipes to choose from (for
 example, is your object broad line or narrow line, or are your objects
 extremely faint point sources or bright extended structures?) in the
-Observing Tool became unwieldy and most people weren't sure how they
+Observing Tool became unwieldy and most people were not sure how they
 wanted to optimize their data processing until they saw what the
 initial processing gave them.
 
@@ -1073,7 +1073,7 @@ instruments covering the submillimeter to the optical and imaging to
 IFUs. Prototype pipelines have also been developed for Gemini and ESO
 instruments to prove the inherent flexibility of the design
 \citep{2003ASPC..295..237C,2004ASPC..314..460C} and the CCAT project
-are considering adopting it \citep{2014SPIE9152-109}.
+is considering adopting it \citep{2014SPIE9152-109}.
 
 In an environment similar to that now promoted by the DevOps movement
 \citep[see e.g.,][]{2014arXiv1407.6463E},
@@ -1103,9 +1103,9 @@ infrastructures:
 
 \item Reusing primitive code for new instruments was a key requirement
   and this has worked; especially once header translation was
-  added. For example, Las Cumbres Observatory are adding additional
+  added. For example, Las Cumbres Observatory is adding additional
   instruments to the pipeline and can reuse the imaging \primitives,
-  only modifying code that defines the differences between
+  only modifying the code that defines the differences between
   instruments. A similar approach has been used by the LSST data
   management stack to allow it to support different camera geometries
   \citep{2010SPIE.7740E..15A}.
@@ -1159,7 +1159,10 @@ comments on the draft manuscript.
 The source
 code is available from
 \htmladdnormallinkfoot{Github}{https://github.com/Starlink/ORAC-DR}
-and distributed under the Gnu General Public Licence.
+and distributed under the Gnu General Public License.
+
+The Joint Astronomy Centre is operated by the Science and Technology Facilities Council, which funded this work, in partnership with the National Research Council of Canada and the Netherlands Organisation for 
+Scientific Research
 
 %% References
 %%
